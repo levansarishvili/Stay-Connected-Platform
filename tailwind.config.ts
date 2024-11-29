@@ -11,6 +11,11 @@ const config: Config = {
       colors: {
         background: "var(--background)",
         foreground: "var(--foreground)",
+        button: "var(--button)",
+        textMain: "var(--text-main)",
+      },
+      screens: {
+        sm: "320px",
       },
     },
   },
