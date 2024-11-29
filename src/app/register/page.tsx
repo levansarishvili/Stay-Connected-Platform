@@ -6,9 +6,9 @@ import AuthSection from "../components/AuthSection";
 const Register = () => {
   return (
     <AuthSection authType="Register">
-      <InputComponent placeholder={"Username"} />
-      <InputComponent placeholder={"Password"} />
-      <InputComponent placeholder={"Confirm password"} />
+      <InputComponent inputType={"text"} placeholder={"Username"} />
+      <InputComponent inputType={"password"} placeholder={"Password"} />
+      <InputComponent inputType={"password"} placeholder={"Confirm password"} />
       <AuthButtons loginBtn={false} registerBtn={true} />
     </AuthSection>
   );

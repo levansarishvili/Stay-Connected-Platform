@@ -6,8 +6,8 @@ import AuthSection from "../components/AuthSection";
 const LoginPage = () => {
   return (
     <AuthSection authType="Log In">
-      <InputComponent placeholder={"Login"} />
-      <InputComponent placeholder={"Password"} />
+      <InputComponent inputType={"email"} placeholder={"Login"} />
+      <InputComponent inputType={"password"} placeholder={"Password"} />
       <AuthButtons loginBtn={true} registerBtn={false} />
     </AuthSection>
   );
