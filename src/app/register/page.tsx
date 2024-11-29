@@ -3,14 +3,15 @@ import InputComponent from "../components/Input";
 import AuthButtons from "../components/AuthButtons";
 import AuthSection from "../components/AuthSection";
 
-const LoginPage = () => {
+const Register = () => {
   return (
-    <AuthSection authType="Log In">
+    <AuthSection authType="Register">
       <InputComponent placeholder={"Login"} />
       <InputComponent placeholder={"Password"} />
-      <AuthButtons loginBtn={true} registerBtn={false} />
+      <InputComponent placeholder={"Confirm password"} />
+      <AuthButtons loginBtn={false} registerBtn={true} />
     </AuthSection>
   );
 };
 
-export default LoginPage;
+export default Register;
