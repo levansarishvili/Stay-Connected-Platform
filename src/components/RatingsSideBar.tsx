@@ -16,7 +16,7 @@ export default function RatingsSideBar() {
             </div>
             <p className="text-white text-xl">Score: 2430</p>
             <div className="bg-[#FFAA00] w-10 h-10 rounded-[0.4rem] flex items-center justify-center absolute top-0 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-white rotate-45">
-              <span className="rotate-[-45deg]">1</span>
+              <span className="rotate-[-45deg] text-xl">1</span>
             </div>
           </div>
         </li>
@@ -33,7 +33,7 @@ export default function RatingsSideBar() {
             </div>
             <p className="text-white text-xl">Score: 2430</p>
             <div className="bg-[#B2B2B2] w-10 h-10 rounded-[0.4rem] flex items-center justify-center absolute top-0 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-white rotate-45">
-              <span className="rotate-[-45deg]">1</span>
+              <span className="rotate-[-45deg] text-xl">2</span>
             </div>
           </div>
         </li>
@@ -50,7 +50,7 @@ export default function RatingsSideBar() {
             </div>
             <p className="text-white text-xl">Score: 2430</p>
             <div className="bg-[#7B7C58] w-10 h-10 rounded-[0.4rem] flex items-center justify-center absolute top-0 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-white rotate-45">
-              <span className="rotate-[-45deg]">1</span>
+              <span className="rotate-[-45deg] text-xl">3</span>
             </div>
           </div>
         </li>
