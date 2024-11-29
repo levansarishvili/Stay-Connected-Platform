@@ -1,3 +1,9 @@
+import QuestionList from "../components/QuestionList";
+
 export default function Home() {
-  return <h1 className="text-primary">Hello This is a Main Page</h1>;
+  return (
+    <main className="grid grid-cols-[2fr,1fr] gap-30 mx-auto mt-20 max-w-[136rem]">
+      <QuestionList />
+    </main>
+  );
 }
