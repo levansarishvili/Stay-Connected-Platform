@@ -1,6 +1,6 @@
 import React from "react";
-import ButtonComponent from "../components/Button";
 import InputComponent from "../components/Input";
+import AuthButtons from "../components/AuthButtons";
 
 const LoginPage = () => {
   return (
@@ -11,14 +11,7 @@ const LoginPage = () => {
         </h2>
         <InputComponent placeholder={"Login"} />
         <InputComponent placeholder={"Password"} />
-        <div className="flex flex-col sm:flex-row gap-5">
-          <ButtonComponent buttonText={"Sign In"} activeBtn href={"/login"} />
-          <ButtonComponent
-            buttonText={"Register"}
-            activeBtn={false}
-            href={"/register"}
-          />
-        </div>
+        <AuthButtons />
       </form>
     </section>
   );
