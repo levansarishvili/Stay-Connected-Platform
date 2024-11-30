@@ -7,6 +7,7 @@ const Register = () => {
   return (
     <AuthSection authType="Register">
       <InputComponent inputType={"text"} placeholder={"Username"} />
+      <InputComponent inputType={"email"} placeholder={"Email"} />
       <InputComponent inputType={"password"} placeholder={"Password"} />
       <InputComponent inputType={"password"} placeholder={"Confirm password"} />
       <AuthButtons loginBtn={false} registerBtn={true} />
