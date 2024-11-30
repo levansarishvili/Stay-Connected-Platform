@@ -1,3 +1,11 @@
+import QuestionList from "../components/QuestionList";
+import RatingsSideBar from "../components/RatingsSideBar";
+
 export default function Home() {
-  return <h1 className="text-primary">Hello This is a Main Page</h1>;
+  return (
+    <main className="grid grid-cols-[2fr,1fr] gap-28 mx-auto mt-20 max-w-[136rem]">
+      <QuestionList />
+      <RatingsSideBar />
+    </main>
+  );
 }

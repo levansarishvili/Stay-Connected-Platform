@@ -1,38 +1,33 @@
 import Image from "next/image";
-import { Input } from "../components/ui/input";
-import { Button } from "../components/ui/button";
 import { Avatar, AvatarFallback, AvatarImage } from "../components/ui/avatar";
-
-import { Search, CirclePlus } from "lucide-react";
 
 export default function Header() {
   return (
     <header className="bg-primary">
-      <div className="flex items-center justify-between max-w-[90rem] px-8 py-3 mx-auto">
+      <div className="flex gap-10 items-center justify-between max-w-[136rem] px-8 py-6 mx-auto">
         <Image
           src="./assets/logo.svg"
           alt="logo"
-          width={70}
-          height={70}
+          width={50}
+          height={50}
         ></Image>
-        <div className="flex gap-4">
-          <Input
-            placeholder="Enter Search Text"
-            className="max-w-96 w-full h-9 rounded-xl bg-white  border-none"
+        <div className="flex gap-6 w-[40rem] ">
+          <input
+            type="search"
+            placeholder="Enter Search Text "
+            className="w-2/3 rounded-lg px-4 py-3 border-none focus:outline-none text-xl text-primary"
           />
-          <Input
+          <input
+            type="search"
             placeholder="Choose Tag"
-            className="max-w-36 h-9 rounded-xl bg-white"
+            className=" w-1/3 rounded-lg px-4 py-3 border-none focus:outline-none text-xl text-primary"
           />
-          {/* <Button className="h-9 w-9 rounded-xl bg-white text-3xl">
-            {<Search />}
-          </Button> */}
         </div>
 
-        <Button className="h-9 w-30 rounded-xl bg-white text-sm">
+        <button className="flex items-center bg-white text-xl text-primary p-3 rounded-lg">
           Add Question
-        </Button>
-        <Avatar className="cursor-pointer w-12 h-12 border-2">
+        </button>
+        <Avatar className="cursor-pointer w-16 h-16 border-2">
           <AvatarImage src="https://github.com/shadcn.png" />
           <AvatarFallback>CN</AvatarFallback>
         </Avatar>
