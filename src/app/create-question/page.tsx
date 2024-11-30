@@ -1,6 +1,7 @@
 import { Input } from "../../components/ui/input";
 import { Textarea } from "../../components/ui/textarea";
 import { Button } from "../../components/ui/button";
+import TagsSelect from "../../components/TagsSelect";
 
 export default function CreateQuestionPage() {
   return (
@@ -18,6 +19,7 @@ export default function CreateQuestionPage() {
       <div>
         <h2>Tags</h2>
         <Input placeholder="Tags" />
+        <TagsSelect />
       </div>
 
       <Button>Create</Button>
