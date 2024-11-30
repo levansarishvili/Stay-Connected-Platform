@@ -2,7 +2,7 @@ export default function QuestionList() {
   return (
     <div className="flex flex-col gap-6">
       <ul className="flex flex-col gap-8 ">
-        <li className="flex flex-col gap-4 p-6 rounded-lg bg-white cursor-pointer">
+        <li className="flex flex-col gap-4 p-6 rounded-lg bg-[#fff] cursor-pointer">
           <h2 className="text-2xl text-[#3C3C4399]">Question Title</h2>
           <p className="text-xl">
             Question Lorem ipsum dolor sit amet consectetur adipisicing elit.
