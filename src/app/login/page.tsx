@@ -1,7 +1,7 @@
 import React from "react";
-import InputComponent from "../components/Input";
-import AuthButtons from "../components/AuthButtons";
-import AuthSection from "../components/AuthSection";
+import InputComponent from "../../components/Input";
+import AuthButtons from "../../components/AuthButtons";
+import AuthSection from "../../components/AuthSection";
 
 const LoginPage = () => {
   return (

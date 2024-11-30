@@ -1,5 +1,5 @@
 import React from "react";
-import { AuthProps } from "../types/authType";
+import { AuthProps } from "../app/types/authType";
 
 const AuthSection = ({
   authType,
