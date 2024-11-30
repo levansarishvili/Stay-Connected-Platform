@@ -20,7 +20,13 @@ export default function AnimatedMulti() {
     <Select
       closeMenuOnSelect={false}
       components={animatedComponents}
-      defaultValue={[options[0], options[1]]}
+      defaultValue={[
+        options[0],
+        options[1],
+        options[2],
+        options[3],
+        options[4],
+      ]}
       isMulti
       options={options}
     />
