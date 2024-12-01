@@ -35,7 +35,8 @@ export default function AnimatedMulti() {
           ...base,
           borderRadius: "1rem",
           fontSize: "1.4rem",
-          boxShadow: state.isFocused ? "none" : base.boxShadow,
+          border: "1px solid #85858591",
+          boxShadow: state.isFocused ? "black" : base.boxShadow,
         }),
 
         menu: (base) => ({

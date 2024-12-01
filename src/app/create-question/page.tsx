@@ -5,7 +5,7 @@ import TagsSelect from "../../components/TagsSelect";
 
 export default function CreateQuestionPage() {
   return (
-    <section className="flex flex-col items-center justify-center max-w-5xl mx-auto mt-20 p-12 bg-white shadow-2xl rounded-xl">
+    <section className="flex flex-col items-center justify-center max-w-5xl mx-auto mt-20 p-16 bg-white shadow-2xl rounded-xl">
       <h1 className="text-4xl font-semibold text-gray-800 mb-12">
         Create a New Question
       </h1>
@@ -22,7 +22,7 @@ export default function CreateQuestionPage() {
           <Input
             id="question-title"
             placeholder="Enter the title of your question"
-            className="rounded-md h-16 border border-gray-300 focus:ring-2 focus:ring-[#4e53a2] focus:border-[#4e53a2] transition duration-300 p-4"
+            className="rounded-md h-16 border border-gray-300 transition duration-300 p-4"
           />
         </div>
 
@@ -37,7 +37,7 @@ export default function CreateQuestionPage() {
           <Textarea
             id="question-description"
             placeholder="Provide a detailed description of your question"
-            className="min-h-[12rem] rounded-md border-gray-300 focus:ring-2 focus:ring-[#4e53a2] focus:border-[#4e53a2] transition duration-300 p-4"
+            className="min-h-[12rem] rounded-md border-gray-300  transition duration-300 p-4"
           />
         </div>
 
