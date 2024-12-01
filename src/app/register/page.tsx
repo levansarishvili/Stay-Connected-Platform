@@ -24,6 +24,13 @@ const RegisterSchema = z
       .string()
       .min(6, { message: "Password must be at least 6 characters." })
       .max(20, { message: "Password must not exceed 20 characters." })
+      .regex(/[A-Z]/, {
+        message: "Password must contain at least one uppercase letter.",
+      })
+      .regex(/[0-9]/, { message: "Password must contain at least one number." })
+      .regex(/[!@#$%^&*(),.?":{}|<>]/, {
+        message: "Password must contain at least one special character.",
+      })
       .nonempty({ message: "Password is required" }),
     confirmPassword: z
       .string()
