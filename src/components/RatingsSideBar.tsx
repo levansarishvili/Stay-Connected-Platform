@@ -9,7 +9,7 @@ export default function RatingsSideBar() {
             <AvatarImage src="https://github.com/shadcn.png" />
             <AvatarFallback>CN</AvatarFallback>
           </Avatar>
-          <div className="bg-primary w-full rounded-lg  flex items-center justify-between p-6 relative">
+          <div className="bg-primary w-full rounded-lg  flex items-center gap-6 justify-between p-6 relative">
             <div className="flex flex-col">
               <p className="text-white text-xl">Eiden Goldman</p>
               <p className="text-[#B7B3B3] text-xl">@username</p>
