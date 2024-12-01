@@ -26,7 +26,6 @@ import AuthButtons from "../../components/AuthButtons";
 import AuthSection from "../../components/AuthSection";
 import InputComponent from "../../components/Input";
 
-// Validation schema using Zod
 const FormSchema = z.object({
   email: z
     .string()
@@ -74,24 +73,22 @@ const LoginPage = () => {
 
   return (
     <AuthSection authType="Log In">
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-10">
         {/* Email Input */}
         <InputComponent
           inputType="email"
           placeholder="Email"
-          register={form.register("email")} // Register email field
-          error={form.formState.errors.email} // Pass error for email
+          register={form.register("email")}
+          error={form.formState.errors.email}
         />
 
-        {/* Password Input */}
         <InputComponent
           inputType="password"
           placeholder="Password"
-          register={form.register("password")} // Register password field
-          error={form.formState.errors.password} // Pass error for password
+          register={form.register("password")}
+          error={form.formState.errors.password}
         />
 
-        {/* Form Submission Buttons */}
         <AuthButtons loginBtn={true} registerBtn={false} />
       </form>
     </AuthSection>

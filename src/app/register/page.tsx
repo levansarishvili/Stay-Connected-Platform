@@ -1,16 +1,94 @@
-import React from "react";
-import InputComponent from "../../components/Input";
+"use client";
+
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useForm } from "react-hook-form";
+import { z } from "zod";
+
+import { toast } from "@/hooks/use-toast";
 import AuthButtons from "../../components/AuthButtons";
 import AuthSection from "../../components/AuthSection";
+import InputComponent from "../../components/Input";
+
+const RegisterSchema = z
+  .object({
+    username: z
+      .string()
+      .min(3, { message: "Username must be at least 3 characters." })
+      .max(20, { message: "Username must not exceed 20 characters." })
+      .nonempty({ message: "Username is required" }),
+    email: z
+      .string()
+      .email({ message: "Please enter a valid email address." })
+      .nonempty({ message: "Email is required" }),
+    password: z
+      .string()
+      .min(6, { message: "Password must be at least 6 characters." })
+      .max(20, { message: "Password must not exceed 20 characters." })
+      .nonempty({ message: "Password is required" }),
+    confirmPassword: z
+      .string()
+      .nonempty({ message: "Confirm password is required" }),
+  })
+  .refine((data) => data.password === data.confirmPassword, {
+    path: ["confirmPassword"],
+    message: "Passwords must match.",
+  });
 
 const Register = () => {
+  const form = useForm<z.infer<typeof RegisterSchema>>({
+    resolver: zodResolver(RegisterSchema),
+    defaultValues: {
+      username: "",
+      email: "",
+      password: "",
+      confirmPassword: "",
+    },
+  });
+
+  function onSubmit(data: z.infer<typeof RegisterSchema>) {
+    toast({
+      title: "Registration Successful",
+      description: (
+        <pre className="mt-2 w-[340px] rounded-md bg-slate-950 p-4">
+          <code className="text-white">{JSON.stringify(data, null, 2)}</code>
+        </pre>
+      ),
+    });
+  }
+
   return (
     <AuthSection authType="Register">
-      <InputComponent inputType={"text"} placeholder={"Username"} />
-      <InputComponent inputType={"email"} placeholder={"Email"} />
-      <InputComponent inputType={"password"} placeholder={"Password"} />
-      <InputComponent inputType={"password"} placeholder={"Confirm password"} />
-      <AuthButtons loginBtn={false} registerBtn={true} />
+      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-10">
+        <InputComponent
+          inputType="text"
+          placeholder="Username"
+          register={form.register("username")}
+          error={form.formState.errors.username}
+        />
+
+        <InputComponent
+          inputType="email"
+          placeholder="Email"
+          register={form.register("email")}
+          error={form.formState.errors.email}
+        />
+
+        <InputComponent
+          inputType="password"
+          placeholder="Password"
+          register={form.register("password")}
+          error={form.formState.errors.password}
+        />
+
+        <InputComponent
+          inputType="password"
+          placeholder="Confirm Password"
+          register={form.register("confirmPassword")}
+          error={form.formState.errors.confirmPassword}
+        />
+
+        <AuthButtons loginBtn={false} registerBtn={true} />
+      </form>
     </AuthSection>
   );
 };

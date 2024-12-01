@@ -17,9 +17,9 @@ export default function ButtonComponent({
       type="submit"
       className={`w-[100%] ${activeBtn ? "bg-button text-white" : "bg-transparent text-gray-600 shadow-transparent"} py-8 rounded-md hover:bg-[#777E99] hover:text-white focus:outline-none focus:ring-2 focus:bg-[#4F46E5] font-bold mx-auto text-[18px]`}
     >
-      <Link href={href} className="inline-block w-full max-w-[250px]">
-        {buttonText}
-      </Link>
+      {/* <Link href={href} className="inline-block w-full max-w-[250px]"> */}
+      {buttonText}
+      {/* </Link> */}
     </Button>
   );
 }

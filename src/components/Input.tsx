@@ -19,9 +19,7 @@ const InputComponent = ({
         placeholder={placeholder}
         {...register}
       />
-      {error && (
-        <p className="text-red-500 text-xs mt-1">{error.message}</p> // Display error message
-      )}
+      {error && <p className="text-red-500 text-xs mt-1">{error.message}</p>}
     </div>
   );
 };
