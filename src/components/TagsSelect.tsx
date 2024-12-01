@@ -18,6 +18,7 @@ const options = [
 export default function AnimatedMulti() {
   return (
     <Select
+      instanceId={"tags-select"}
       closeMenuOnSelect={false}
       components={animatedComponents}
       defaultValue={[
