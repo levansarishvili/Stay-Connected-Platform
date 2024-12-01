@@ -54,7 +54,7 @@ export default function CreateQuestionPage() {
       </div>
 
       {/* Submit Button */}
-      <Button className="mt-12 w-full max-w-md rounded-md text-2xl h-16 px-12 bg-[#4e53a2] hover:bg-[#3e4490] text-white shadow-lg transition duration-300">
+      <Button className="mt-12 w-full max-w-md rounded-md text-2xl h-16 px-12 bg-[#4e53a2] hover:bg-[#777E99] text-white shadow-lg transition duration-300">
         Create Question
       </Button>
     </section>
