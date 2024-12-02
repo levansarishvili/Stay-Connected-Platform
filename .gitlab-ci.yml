@@ -32,5 +32,5 @@ deploy_application:
     - main  # Deploy only when pushing to the main branch
   script:
     - echo "Deploying the Next.js application..."
-    - npm run export # If you're exporting a static Next.js site
+    - npm run dev
     - echo "Deployment complete!"
