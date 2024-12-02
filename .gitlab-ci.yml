@@ -4,12 +4,6 @@ stages:
   - test
   - deploy
 
-variables:
-  NODE_VERSION: "22"
-
-cache:
-  paths:
-    - node_modules/
 
 install_dependencies:
   stage: install
@@ -18,6 +12,7 @@ install_dependencies:
   artifacts:
     paths:
       - node_modules/
+
 build_application:
   stage: build
   script:
