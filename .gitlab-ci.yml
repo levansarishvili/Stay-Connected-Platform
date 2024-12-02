@@ -27,7 +27,6 @@ build-job:       # This job runs in the build stage, which runs first.
     - echo "Building Dependencies"
     - whoami
     - pwd
-    - yarn -v
     - npm -v
     - nvm -v
     - node -v
