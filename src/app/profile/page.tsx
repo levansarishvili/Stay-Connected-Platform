@@ -10,7 +10,7 @@ import {
 const Profile = () => {
   return (
     <section className="flex flex-col items-center gap-12 mx-auto mt-20 max-w-4xl w-full p-8 bg-white rounded-lg shadow-lg">
-      <h2 className="text-4xl font-bold text-gray-800">Profile</h2>
+      <h2 className="text-4xl font-semibold text-gray-800">Profile</h2>
 
       <Avatar className="cursor-pointer w-32 h-32 border-4 border-indigo-600">
         <AvatarImage

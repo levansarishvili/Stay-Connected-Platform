@@ -2,8 +2,9 @@ import { Avatar, AvatarFallback, AvatarImage } from "../components/ui/avatar";
 
 export default function RatingsSideBar() {
   return (
-    <div>
-      <ul className="flex flex-col gap-6 justify-center items-center">
+    <div className="flex flex-col gap-6 items-center w-full">
+      <h2 className="text-3xl font-semibold text-gray-800">Leaderboard</h2>
+      <ul className="flex flex-col gap-6 justify-center items-center w-full">
         <li className=" w-full rounded-lg relative flex gap-6 items-center justify-between p-4">
           <Avatar className="cursor-pointer w-16 h-16 border-2 border-[#FFAA00] ">
             <AvatarImage src="https://github.com/shadcn.png" />

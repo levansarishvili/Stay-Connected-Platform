@@ -5,7 +5,7 @@ import TagsSelect from "../../components/TagsSelect";
 
 export default function CreateQuestionPage() {
   return (
-    <section className="flex flex-col items-center justify-center max-w-5xl mx-auto mt-20 p-16 bg-white shadow-2xl rounded-xl">
+    <section className="flex flex-col items-center justify-center max-w-5xl mx-auto mt-20 p-12 md:p-16 bg-white shadow-2xl rounded-xl">
       <h1 className="text-4xl font-semibold text-gray-800 mb-12">
         Create a New Question
       </h1>
@@ -54,7 +54,7 @@ export default function CreateQuestionPage() {
       </div>
 
       {/* Submit Button */}
-      <Button className="mt-12 w-full max-w-md rounded-md text-2xl h-16 px-12 bg-[#4e53a2] hover:bg-[#777E99] text-white shadow-lg transition duration-300">
+      <Button className="mt-12 w-60 md:w-full md:max-w-md rounded-md text-xl md:text-2xl h-16 px-8md:px-12 bg-[#4e53a2] hover:bg-[#777E99] text-white shadow-lg transition duration-300">
         Create Question
       </Button>
     </section>

@@ -73,21 +73,19 @@ export default function QuestionDetails() {
   };
 
   return (
-    <main className="grid grid-cols-[2fr,1fr] gap-28 mx-auto mt-20 max-w-[136rem]">
-      <div className="space-y-8">
-        <section className="pb-20">
-          <h2 className="mb-10 text-2xl">Questions</h2>
-          <QuestionAndDetailsList
-            questions={questions}
-            answers={answers}
-            handleAddAnswer={handleAddAnswer}
-            newAnswers={newAnswers}
-            handleAnswerChange={handleAnswerChange}
-          />
-        </section>
-        <div className="border-t-4 border-gray-300 dark:border-gray-700 h-5"></div>
-      </div>
+    <section className="grid grid-cols-[1fr] md:grid-cols-[2fr,1fr] gap-28 mx-auto mt-20 px-12 md:px-16 max-w-[136rem]">
+      <section className="flex flex-col gap-8 items-center">
+        <h2 className="text-3xl text-gray-800">Questions</h2>
+        <QuestionAndDetailsList
+          questions={questions}
+          answers={answers}
+          handleAddAnswer={handleAddAnswer}
+          newAnswers={newAnswers}
+          handleAnswerChange={handleAnswerChange}
+        />
+      </section>
+
       <RatingsSideBar />
-    </main>
+    </section>
   );
 }
