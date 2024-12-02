@@ -8,7 +8,7 @@ stages:
 install_dependencies:
   stage: install
   script:
-    - which npm
+    - npm -v
     - npm install
   artifacts:
     paths:
