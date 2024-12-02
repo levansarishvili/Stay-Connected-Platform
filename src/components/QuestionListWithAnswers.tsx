@@ -61,8 +61,8 @@ const QuestionAndDetailsList: React.FC<QuestionAndDetailsListProps> = ({
   };
 
   return (
-    <div className="flex flex-col gap-6">
-      <ul className="flex flex-col gap-8">
+    <div className="flex flex-col gap-6 w-full">
+      <ul className="flex flex-col gap-8 ">
         {questions.map((question, index) => (
           <li
             key={index}
