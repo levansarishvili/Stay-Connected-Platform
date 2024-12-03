@@ -27,10 +27,6 @@ build-job:       # This job runs in the build stage, which runs first.
     - echo "Building Dependencies"
     - whoami
     - pwd
-    - npm -v
-    - nvm -v
-    - node -v
-    - npm install
     - echo "Build complete." 
 
 unit-test-job:   # This job runs in the test stage.
