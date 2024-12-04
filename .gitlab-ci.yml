@@ -52,7 +52,7 @@ stage:
    # - ssh $APP_USER@$APP_HOST_STAGING "docker pull$CONTAINER_TEST_IMAGE"
     - ssh $APP_USER@$APP_HOST_STAGING "hostname && docker pull$CONTAINER_TEST_IMAGE"
     # - docker pull$CONTAINER_TEST_IMAGE
-     - docker stop nextjs-app || true
+    - docker stop nextjs-app || true
     # - docker rm nextjs-app || true
     # - docker run -d --name nextjs-app -p 80:80 $CONTAINER_TEST_IMAGE
   only:
