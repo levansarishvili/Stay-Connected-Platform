@@ -47,10 +47,7 @@ stage:
   stage: staging
   script:
     - echo "Deploying to staging server..."
-    - command -v ssh-agent > /dev/null || (apk add --update openssh)
-    - eval $(ssh-agent -s)
-    - echo "$SSH_PRIVATE_KEY" | tr -d '\r' | ssh-add -
-    
+
    # - ssh $APP_USER@$APP_HOST_STAGING "docker pull$CONTAINER_TEST_IMAGE"
     - ssh $APP_USER@$APP_HOST_STAGING "hostname && echo 'Welcome!!!' > welcome.txt"
     # - docker pull$CONTAINER_TEST_IMAGE
