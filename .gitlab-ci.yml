@@ -46,12 +46,11 @@ stage:
   stage: staging
   script:
     - echo "Deploying to staging server..."
-    - ssh -o StrictHostKeyChecking=no $APP_USER@$APP_HOST_STAGING << 'EOF'
-        docker pull$CONTAINER_TEST_IMAGE
-        docker stop nextjs-app || true
-        docker rm nextjs-app || true
-        docker run -d --name nextjs-app -p 80:80 $CONTAINER_TEST_IMAGE
-      EOF
+    - ssh -o StrictHostKeyChecking=no $APP_USER@$APP_HOST_STAGING
+    - docker pull$CONTAINER_TEST_IMAGE
+    - docker stop nextjs-app || true
+    - docker rm nextjs-app || true
+    - docker run -d --name nextjs-app -p 80:80 $CONTAINER_TEST_IMAGE
   only:
     - staging
 
