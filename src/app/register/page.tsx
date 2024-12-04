@@ -74,14 +74,14 @@ const Register = () => {
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-10">
         <InputComponent
           inputType="text"
-          placeholder="Username"
+          placeholder="Firstname"
           register={form.register("firstname")}
           error={form.formState.errors.firstname}
         />
 
         <InputComponent
           inputType="text"
-          placeholder="Username"
+          placeholder="Lastname"
           register={form.register("lastname")}
           error={form.formState.errors.lastname}
         />
