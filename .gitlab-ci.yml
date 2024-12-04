@@ -2,11 +2,13 @@ stages:
   - build
   #- test
   - staging
+  - release
   - deploy
 
 variables:
-  # Image name using GitLab registry
   IMAGE_NAME: "$CI_REGISTRY/$CI_PROJECT_PATH:$CI_COMMIT_REF_NAME"
+  CONTAINER_TEST_IMAGE: $CI_REGISTRY_IMAGE:$CI_COMMIT_REF_SLUG
+  CONTAINER_RELEASE_IMAGE: $CI_REGISTRY_IMAGE:latest
   #DOCKER_TLS_CERTDIR: "/certs"
   DOCKER_DRIVER: overlay2
 
@@ -16,6 +18,8 @@ build:
   image: docker:latest
   before_script:
     - echo $IMAGE_NAME
+    - echo CONTAINER_TEST_IMAGE
+    - echo CONTAINER_RELEASE_IMAGE
     - echo "$CI_REGISTRY_PASS" | docker login $CI_REGISTRY --username $CI_REGISTRY_USER --password-stdin
   script:
     - echo "Building Docker image for Next.js app..."
@@ -50,6 +54,16 @@ stage:
       EOF
   only:
     - staging
+
+#Release
+release-image:
+  stage: release
+  script:
+    - docker pull $CONTAINER_TEST_IMAGE
+    - docker tag $CONTAINER_TEST_IMAGE $CONTAINER_RELEASE_IMAGE
+    - docker push $CONTAINER_RELEASE_IMAGE
+  rules:
+    - if: $CI_COMMIT_BRANCH == "main"
 
 # Deploy to production server
 deploy:
