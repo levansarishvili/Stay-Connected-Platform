@@ -20,7 +20,10 @@ build:
     - docker push $IMAGE_NAME
   only:
     - main
+<<<<<<< HEAD
     - staging
+=======
+>>>>>>> main
     - merge_requests
 
 # # Run tests inside the Docker container
