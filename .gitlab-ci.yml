@@ -47,7 +47,7 @@ stage:
   stage: staging
   script:
     - echo "Deploying to staging server..."
-
+    - ssh-add <(echo "$SSH_PRIVATE_KEY")
    # - ssh $APP_USER@$APP_HOST_STAGING "docker pull$CONTAINER_TEST_IMAGE"
     - ssh $APP_USER@$APP_HOST_STAGING "hostname && echo 'Welcome!!!' > welcome.txt"
     # - docker pull$CONTAINER_TEST_IMAGE
