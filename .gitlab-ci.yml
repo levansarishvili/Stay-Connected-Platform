@@ -79,4 +79,4 @@ deploy:
       EOF
   only:
     - main
-   environment: production
+  environment: production
