@@ -1,7 +1,7 @@
 stages:
   - build
-  - test
-  # - stage
+  #- test
+  - staging
   - deploy
 
 variables:
@@ -27,30 +27,29 @@ build:
     - staging
 
 # Run tests inside the Docker container
-test:
-  stage: test
-  image: $CI_REGISTRY/$CI_PROJECT_PATH:$CI_COMMIT_REF_NAME
-  script:
-    - echo "Running tests for Next.js app inside built container on the runner machine..."
-    - docker run --rm "$CI_REGISTRY/$CI_PROJECT_PATH:$CI_COMMIT_REF_NAME" npm install  # Install dependencies inside the container
-    - docker run --rm "$CI_REGISTRY/$CI_PROJECT_PATH:$CI_COMMIT_REF_NAME" npm run lint  # Run the lint tests inside the container
-  only:
-    - staging
-    - main
-
-# # Deploy to the staging server
-# stage:
-#   stage: stage
+# test:
+#   stage: test
+#   image: $CI_REGISTRY/$CI_PROJECT_PATH:$CI_COMMIT_REF_NAME
 #   script:
-#     - echo "Deploying to staging server..."
-#     - ssh -o StrictHostKeyChecking=no $APP_USER@$APP_HOST_PROD << 'EOF'
-#         docker pull $IMAGE_NAME
-#         docker stop nextjs-app || true
-#         docker rm nextjs-app || true
-#         docker run -d --name nextjs-app -p 80:80 $IMAGE_NAME
-#       EOF
+#     - echo "Running tests for Next.js app inside built container on the runner machine..."
+#     - docker run --rm "$CI_REGISTRY/$CI_PROJECT_PATH:$CI_COMMIT_REF_NAME" npm run lint  # Run the lint tests inside the container
 #   only:
 #     - staging
+#     - main
+
+# Deploy to the staging server
+stage:
+  stage: staging
+  script:
+    - echo "Deploying to staging server..."
+    - ssh -o StrictHostKeyChecking=no $APP_USER@$APP_HOST_STAGING << 'EOF'
+        docker pull $CI_REGISTRY/$CI_PROJECT_PATH:$CI_COMMIT_REF_NAME
+        docker stop nextjs-app || true
+        docker rm nextjs-app || true
+        docker run -d --name nextjs-app -p 80:80 $CI_REGISTRY/$CI_PROJECT_PATH:$CI_COMMIT_REF_NAME
+      EOF
+  only:
+    - staging
 
 # Deploy to production server
 deploy:
