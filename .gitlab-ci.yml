@@ -18,8 +18,8 @@ build:
   image: docker:latest
   before_script:
     - echo $IMAGE_NAME
-    - echo CONTAINER_TEST_IMAGE
-    - echo CONTAINER_RELEASE_IMAGE
+    - echo $CONTAINER_TEST_IMAGE
+    - echo $CONTAINER_RELEASE_IMAGE
     - echo "$CI_REGISTRY_PASS" | docker login $CI_REGISTRY --username $CI_REGISTRY_USER --password-stdin
   script:
     - echo "Building Docker image for Next.js app..."
