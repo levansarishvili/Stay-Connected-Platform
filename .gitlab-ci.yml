@@ -32,8 +32,8 @@ test:
   image: $CI_REGISTRY/$CI_PROJECT_PATH:$CI_COMMIT_REF_NAME
   script:
     - echo "Running tests for Next.js app inside built container on the runner machine..."
-    - docker run --rm "$IMAGE_NAME" npm install  # Install dependencies inside the container
-    - docker run --rm "$IMAGE_NAME" npm run test  # Run the tests inside the container
+    - docker run --rm "$CI_REGISTRY/$CI_PROJECT_PATH:$CI_COMMIT_REF_NAME" npm install  # Install dependencies inside the container
+    - docker run --rm "$CI_REGISTRY/$CI_PROJECT_PATH:$CI_COMMIT_REF_NAME" npm run test  # Run the tests inside the container
   only:
     - staging
     - main
