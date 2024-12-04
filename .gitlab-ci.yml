@@ -49,7 +49,7 @@ stage:
     - echo "Deploying to staging server..."
     - eval `ssh-agent -s`
     - ssh-add <(echo "$SSH_PRIVATE_KEY" | base64 -d)
-    - ssh $APP_USER@$APP_HOST_STAGING "hostname && docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY && docker pull $CONTAINER_TEST_IMAGE && docker stop nextjs-app || true && docker rm nextjs-app || true && docker run -d --name nextjs-app -p 3000:80 $CONTAINER_TEST_IMAGE && exit " 
+    - ssh $APP_USER@$APP_HOST_STAGING "hostname && docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY && docker pull $CONTAINER_TEST_IMAGE && docker stop nextjs-app || true && docker rm nextjs-app || true && docker run -d --name nextjs-app -p 3000:80 $CONTAINER_TEST_IMAGE npm next start && exit " 
   only:
     - staging
 
