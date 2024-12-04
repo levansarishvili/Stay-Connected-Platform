@@ -1,15 +1,19 @@
 stages:
-  - build
-  # - test
-  # - stage
+  #- build
+  #- test
+  - staging
+  - release
   - deploy
 
 variables:
-  # Image name using GitLab registry
-  IMAGE_NAME: "$CI_REGISTRY/$CI_PROJECT_PATH:$CI_COMMIT_REF_NAME"
-  DOCKER_DRIVER: overlay2
+  IMAGE_NAME: $CI_REGISTRY/$CI_PROJECT_PATH:$CI_COMMIT_REF_NAME #Ar mushaobs
+  CONTAINER_TEST_IMAGE: $CI_REGISTRY_IMAGE:$CI_COMMIT_REF_SLUG  #Ase mushaobs
+  CONTAINER_RELEASE_IMAGE: $CI_REGISTRY_IMAGE:latest
+  #DOCKER_TLS_CERTDIR: "/certs"
+  #DOCKER_DRIVER: overlay2
 
 # Build Docker image and push it to GitLab container registry
+<<<<<<< HEAD
 build:
   stage: build
   image: docker:latest
@@ -25,32 +29,59 @@ build:
 =======
 >>>>>>> main
     - merge_requests
+=======
+# build:
+#   stage: build
+#   image: docker:latest
+#   before_script:
+#     - echo $IMAGE_NAME
+#     - echo $CONTAINER_TEST_IMAGE
+#     - echo $CONTAINER_RELEASE_IMAGE
+#     - echo "$CI_REGISTRY_PASS" | docker login $CI_REGISTRY --username $CI_REGISTRY_USER --password-stdin
+#   script:
+#     - echo "Building Docker image for Next.js app..."
+#     - docker login -u "$CI_REGISTRY_USER" -p "$CI_REGISTRY_PASSWORD" $CI_REGISTRY
+#     - docker build --pull -t $CONTAINER_TEST_IMAGE .
+#     - docker push $CONTAINER_TEST_IMAGE
+#   only:
+#     - main
+#     - staging
+>>>>>>> 1e3e553fd4703ef0654ddfa538b94c37b0007951
 
-# # Run tests inside the Docker container
+# Run tests inside the Docker container
 # test:
 #   stage: test
-#   image: $IMAGE_NAME
+#   image: $CONTAINER_TEST_IMAGE
 #   script:
-#     - echo "Running tests for Next.js app..."
-#     - npm install # or yarn install
-#     - npm run test # or yarn test
+#     - echo "Running tests for Next.js app inside built container on the runner machine..."
+#     - docker run --rm "$CI_REGISTRY/$CI_PROJECT_PATH:$CI_COMMIT_REF_NAME" npm run lint  # Run the lint tests inside the container
 #   only:
+#     - staging
 #     - main
-#     - merge_requests
 
-# # Deploy to the staging server
-# stage:
-#   stage: stage
-#   script:
-#     - echo "Deploying to staging server..."
-#     - ssh -o StrictHostKeyChecking=no $APP_USER@$APP_HOST_PROD << 'EOF'
-#         docker pull $IMAGE_NAME
-#         docker stop nextjs-app || true
-#         docker rm nextjs-app || true
-#         docker run -d --name nextjs-app -p 80:80 $IMAGE_NAME
-#       EOF
-#   only:
-#     - main
+# Deploy to the staging server
+stage:
+  stage: staging
+  script:
+    - echo "Deploying to staging server..."
+    - ssh $APP_USER@$APP_HOST_STAGING "docker pull$CONTAINER_TEST_IMAGE"
+    # - docker pull$CONTAINER_TEST_IMAGE
+    # - docker stop nextjs-app || true
+    # - docker rm nextjs-app || true
+    # - docker run -d --name nextjs-app -p 80:80 $CONTAINER_TEST_IMAGE
+  only:
+    - staging
+
+#Release
+release-image:
+  stage: release
+  script:
+    - docker pull $CONTAINER_TEST_IMAGE
+    - docker tag $CONTAINER_TEST_IMAGE $CONTAINER_RELEASE_IMAGE
+    - docker push $CONTAINER_RELEASE_IMAGE
+  rules:
+    - if: $CI_COMMIT_BRANCH == "main"
+ 
 
 # Deploy to production server
 deploy:
@@ -58,10 +89,11 @@ deploy:
   script:
     - echo "Deploying to production server..."
     - ssh -o StrictHostKeyChecking=no $APP_USER@$APP_HOST_PROD << 'EOF'
-        docker pull $IMAGE_NAME
+        docker pull $CONTAINER_RELEASE_IMAGE
         docker stop nextjs-app || true
         docker rm nextjs-app || true
-        docker run -d --name nextjs-app -p 80:80 $IMAGE_NAME
+        docker run -d --name nextjs-app -p 80:80 $CONTAINER_RELEASE_IMAGE
       EOF
   only:
-    - tags
+    - main
+  environment: production
