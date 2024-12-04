@@ -27,17 +27,17 @@ build:
     - staging
     - merge_requests
 
-# # Run tests inside the Docker container
-# test:
-#   stage: test
-#   image: $IMAGE_NAME
-#   script:
-#     - echo "Running tests for Next.js app..."
-#     - npm install # or yarn install
-#     - npm run test # or yarn test
-#   only:
-#     - main
-#     - merge_requests
+# Run tests inside the Docker container
+test:
+  stage: test
+  image: $IMAGE_NAME
+  script:
+    - echo "Running tests for Next.js app..."
+    - npm install # or yarn install
+    - npm run test # or yarn test
+  only:
+    - staging
+    - merge_requests
 
 # # Deploy to the staging server
 # stage:
@@ -51,7 +51,7 @@ build:
 #         docker run -d --name nextjs-app -p 80:80 $IMAGE_NAME
 #       EOF
 #   only:
-#     - main
+#     - staging
 
 # Deploy to production server
 deploy:
