@@ -6,11 +6,11 @@ stages:
   - deploy
 
 variables:
-  IMAGE_NAME: $CI_REGISTRY/$CI_PROJECT_PATH:$CI_COMMIT_REF_NAME
-  CONTAINER_TEST_IMAGE: $CI_REGISTRY_IMAGE:$CI_COMMIT_REF_SLUG
+  IMAGE_NAME: $CI_REGISTRY/$CI_PROJECT_PATH:$CI_COMMIT_REF_NAME #Ar mushaobs
+  CONTAINER_TEST_IMAGE: $CI_REGISTRY_IMAGE:$CI_COMMIT_REF_SLUG  #Ase mushaobs
   CONTAINER_RELEASE_IMAGE: $CI_REGISTRY_IMAGE:latest
   #DOCKER_TLS_CERTDIR: "/certs"
-  DOCKER_DRIVER: overlay2
+  #DOCKER_DRIVER: overlay2
 
 # Build Docker image and push it to GitLab container registry
 build:
@@ -24,8 +24,8 @@ build:
   script:
     - echo "Building Docker image for Next.js app..."
     - docker login -u "$CI_REGISTRY_USER" -p "$CI_REGISTRY_PASSWORD" $CI_REGISTRY
-    - docker build -t $CI_REGISTRY/$CI_PROJECT_PATH:$CI_COMMIT_REF_NAME .
-    - docker push $CI_REGISTRY/$CI_PROJECT_PATH:$CI_COMMIT_REF_NAME
+    - docker build -t --pull $CONTAINER_TEST_IMAGE .
+    - docker push $CONTAINER_TEST_IMAGE
   only:
     - main
     - staging
@@ -33,7 +33,7 @@ build:
 # Run tests inside the Docker container
 # test:
 #   stage: test
-#   image: $CI_REGISTRY/$CI_PROJECT_PATH:$CI_COMMIT_REF_NAME
+#   image: $CONTAINER_TEST_IMAGE
 #   script:
 #     - echo "Running tests for Next.js app inside built container on the runner machine..."
 #     - docker run --rm "$CI_REGISTRY/$CI_PROJECT_PATH:$CI_COMMIT_REF_NAME" npm run lint  # Run the lint tests inside the container
@@ -47,10 +47,10 @@ stage:
   script:
     - echo "Deploying to staging server..."
     - ssh -o StrictHostKeyChecking=no $APP_USER@$APP_HOST_STAGING << 'EOF'
-        docker pull $CI_REGISTRY/$CI_PROJECT_PATH:$CI_COMMIT_REF_NAME
+        docker pull$CONTAINER_TEST_IMAGE
         docker stop nextjs-app || true
         docker rm nextjs-app || true
-        docker run -d --name nextjs-app -p 80:80 $CI_REGISTRY/$CI_PROJECT_PATH:$CI_COMMIT_REF_NAME
+        docker run -d --name nextjs-app -p 80:80 $CONTAINER_TEST_IMAGE
       EOF
   only:
     - staging
@@ -64,6 +64,7 @@ release-image:
     - docker push $CONTAINER_RELEASE_IMAGE
   rules:
     - if: $CI_COMMIT_BRANCH == "main"
+ 
 
 # Deploy to production server
 deploy:
@@ -71,10 +72,11 @@ deploy:
   script:
     - echo "Deploying to production server..."
     - ssh -o StrictHostKeyChecking=no $APP_USER@$APP_HOST_PROD << 'EOF'
-        docker pull $CI_REGISTRY/$CI_PROJECT_PATH:$CI_COMMIT_REF_NAME
+        docker pull $CONTAINER_RELEASE_IMAGE
         docker stop nextjs-app || true
         docker rm nextjs-app || true
-        docker run -d --name nextjs-app -p 80:80 $CI_REGISTRY/$CI_PROJECT_PATH:$CI_COMMIT_REF_NAME
+        docker run -d --name nextjs-app -p 80:80 $CONTAINER_RELEASE_IMAGE
       EOF
   only:
     - main
+   environment: production
