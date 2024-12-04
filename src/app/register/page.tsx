@@ -11,11 +11,16 @@ import InputComponent from "../../components/Input";
 
 const RegisterSchema = z
   .object({
-    username: z
+    firstname: z
       .string()
-      .min(3, { message: "Username must be at least 3 characters." })
-      .max(20, { message: "Username must not exceed 20 characters." })
-      .nonempty({ message: "Username is required" }),
+      .min(3, { message: "Firstname must be at least 3 characters." })
+      .max(20, { message: "Firstname must not exceed 20 characters." })
+      .nonempty({ message: "Firstname is required" }),
+    lastname: z
+      .string()
+      .min(3, { message: "Lastname must be at least 3 characters." })
+      .max(20, { message: "Lastname must not exceed 20 characters." })
+      .nonempty({ message: "Lastname is required" }),
     email: z
       .string()
       .email({ message: "Please enter a valid email address." })
@@ -45,7 +50,8 @@ const Register = () => {
   const form = useForm<z.infer<typeof RegisterSchema>>({
     resolver: zodResolver(RegisterSchema),
     defaultValues: {
-      username: "",
+      firstname: "",
+      lastname: "",
       email: "",
       password: "",
       confirmPassword: "",
@@ -69,8 +75,15 @@ const Register = () => {
         <InputComponent
           inputType="text"
           placeholder="Username"
-          register={form.register("username")}
-          error={form.formState.errors.username}
+          register={form.register("firstname")}
+          error={form.formState.errors.firstname}
+        />
+
+        <InputComponent
+          inputType="text"
+          placeholder="Username"
+          register={form.register("lastname")}
+          error={form.formState.errors.lastname}
         />
 
         <InputComponent
