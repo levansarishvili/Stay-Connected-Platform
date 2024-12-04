@@ -30,7 +30,7 @@ build:
 # Run tests inside the Docker container
 test:
   stage: test
-  image: $IMAGE_NAME
+  image: $CI_REGISTRY/$CI_PROJECT_PATH:$CI_COMMIT_REF_NAME
   script:
     - echo "Running tests for Next.js app..."
     - npm install # or yarn install
