@@ -59,10 +59,10 @@ deploy:
   script:
     - echo "Deploying to production server..."
     - ssh -o StrictHostKeyChecking=no $APP_USER@$APP_HOST_PROD << 'EOF'
-        docker pull $IMAGE_NAME
+        docker pull $CI_REGISTRY/$CI_PROJECT_PATH:$CI_COMMIT_REF_NAME
         docker stop nextjs-app || true
         docker rm nextjs-app || true
-        docker run -d --name nextjs-app -p 80:80 $IMAGE_NAME
+        docker run -d --name nextjs-app -p 80:80 $CI_REGISTRY/$CI_PROJECT_PATH:$CI_COMMIT_REF_NAME
       EOF
   only:
-    - tags
+    - main
