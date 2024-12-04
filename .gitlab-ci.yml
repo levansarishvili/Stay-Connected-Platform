@@ -48,7 +48,7 @@ stage:
   script:
     - echo "Deploying to staging server..."
     - eval `ssh-agent -s`
-    - ssh-add <(echo "$SSH_PRIVATE_KEY")
+    - ssh-add <(echo "$SSH_PRIVATE_KEY" | base64 -d)
    # - ssh $APP_USER@$APP_HOST_STAGING "docker pull$CONTAINER_TEST_IMAGE"
     - ssh $APP_USER@$APP_HOST_STAGING "hostname && echo 'Welcome!!!' > welcome.txt"
     # - docker pull$CONTAINER_TEST_IMAGE
