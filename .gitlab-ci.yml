@@ -15,7 +15,7 @@ build:
   stage: build
   image: docker:latest
   before_script:
-    - echo "$CI_REGISTRY/$CI_PROJECT_PATH:$CI_COMMIT_REF_NAME  useris $CI_REGISTRY_USER" 
+    - echo "image full name is $IMAGE_NAME" 
     - echo "$CI_REGISTRY_PASS" | docker login $CI_REGISTRY --username $CI_REGISTRY_USER --password-stdin
   script:
     - echo "Building Docker image for Next.js app..."
