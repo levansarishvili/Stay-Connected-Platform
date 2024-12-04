@@ -25,7 +25,6 @@ build:
   only:
     - main
     - staging
-    - merge_requests
 
 # Run tests inside the Docker container
 test:
@@ -37,7 +36,7 @@ test:
     - npm run test # or yarn test
   only:
     - staging
-    - merge_requests
+    - main
 
 # # Deploy to the staging server
 # stage:
