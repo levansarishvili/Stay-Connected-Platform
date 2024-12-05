@@ -1,4 +1,13 @@
 import { Input } from "@/components/ui/input";
+import { UseFormRegisterReturn, FieldError } from "react-hook-form";
+
+interface FormData {
+  first_name: string;
+  last_name: string;
+  email: string;
+  password: string;
+  confirmPassword: string;
+}
 
 const InputComponent = ({
   placeholder,
@@ -8,8 +17,8 @@ const InputComponent = ({
 }: {
   placeholder: string;
   inputType: string;
-  register: any;
-  error?: any; // Error prop
+  register: UseFormRegisterReturn<keyof FormData>;
+  error?: FieldError;
 }) => {
   return (
     <div className="flex justify-center flex-col">
