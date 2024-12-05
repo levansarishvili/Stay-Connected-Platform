@@ -12,7 +12,7 @@ variables:
   CONTAINER_RELEASE_IMAGE: $CI_REGISTRY_IMAGE:latest
 
 
-build:
+build-staging:
   stage: build-staging
   image: docker:latest
   before_script:
@@ -28,7 +28,7 @@ build:
   only:
     - staging
 
-  build:
+build-production:
   stage: build-production
   image: docker:latest
   before_script:
