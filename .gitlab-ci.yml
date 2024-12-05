@@ -23,7 +23,6 @@ build-staging:
   script:
     - echo "Creating .env file"
     - echo -e "DATA_API_URL=$STAGING_API_URL\nFRONTEND_URL=$STAGING_FRONTEND_URL" > .env
-    - cat .env
     - echo "Staging variables added to .env"
     - echo "Building Docker image for Next.js app..."
     - docker login -u "$CI_REGISTRY_USER" -p "$CI_REGISTRY_PASSWORD" $CI_REGISTRY
@@ -41,6 +40,8 @@ build-production:
     - echo $CI_PROJECT_DIR
     - echo "$CI_REGISTRY_PASS" | docker login $CI_REGISTRY --username $CI_REGISTRY_USER --password-stdin
   script:
+    - echo "Creating .env file"
+    - echo -e "DATA_API_URL=$PRODUCTION_API_URL\nFRONTEND_URL=$PRODUCTION_FRONTEND_URL" > .env
     - echo "Building Docker image for Next.js app..."
     - docker login -u "$CI_REGISTRY_USER" -p "$CI_REGISTRY_PASSWORD" $CI_REGISTRY
     - docker build -t $CONTAINER_TEST_IMAGE .
