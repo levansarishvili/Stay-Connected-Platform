@@ -5,7 +5,7 @@ import { useForm } from "react-hook-form";
 import { z } from "zod";
 import axios from "axios";
 import { toast } from "@/hooks/use-toast";
-
+import { AxiosError } from "axios";
 import AuthButtons from "../../components/AuthButtons";
 import AuthSection from "../../components/AuthSection";
 import InputComponent from "../../components/Input";
@@ -58,8 +58,16 @@ const LoginPage = () => {
 
       window.location.href = "/";
     } catch (error: unknown) {
-      if (error instanceof Error) {
-        toast({ title: "Error", description: error.message });
+      if (error instanceof AxiosError) {
+        const errorData = error.response?.data;
+        // console.log(error.response);
+
+        if (errorData) {
+          toast({
+            title: `${error.response?.statusText} user`,
+            description: errorData.detail,
+          });
+        }
       } else {
         toast({ title: "Error", description: "An unexpected error occurred" });
       }
