@@ -75,6 +75,8 @@ const Register = () => {
         title: "Registration Successful",
         description: "You have successfully registered.",
       });
+
+      form.reset();
     } catch (error: unknown) {
       if (error instanceof Error) {
         toast({ title: "Error", description: error.message });
