@@ -1,27 +1,11 @@
-// import React from "react";
-// import InputComponent from "../../components/Input";
-// import AuthButtons from "../../components/AuthButtons";
-// import AuthSection from "../../components/AuthSection";
-
-// const LoginPage = () => {
-//   return (
-//     <AuthSection authType="Log In">
-//       <InputComponent inputType={"email"} placeholder={"Login"} />
-//       <InputComponent inputType={"password"} placeholder={"Password"} />
-//       <AuthButtons loginBtn={true} registerBtn={false} />
-//     </AuthSection>
-//   );
-// };
-
-// export default LoginPage;
-
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
-
+import axios from "axios";
 import { toast } from "@/hooks/use-toast";
+
 import AuthButtons from "../../components/AuthButtons";
 import AuthSection from "../../components/AuthSection";
 import InputComponent from "../../components/Input";
@@ -57,17 +41,29 @@ const LoginPage = () => {
     },
   });
 
-  function onSubmit(data: z.infer<typeof FormSchema>) {
-    toast({
-      title: "Login Successful",
-      description: (
-        <pre className="absolute top-0 mt-4 w-[340px] rounded-lg bg-gray-900 p-10 shadow-lg border border-gray-700">
-          <code className="block text-white text-md font-mono whitespace-pre-wrap overflow-x-auto">
-            {JSON.stringify(data, null, 2)}
-          </code>
-        </pre>
-      ),
-    });
+  async function onSubmit(data: z.infer<typeof FormSchema>) {
+    try {
+      const response = await axios.post(
+        "http://localhost:8000/api/token/",
+        data
+      );
+
+      document.cookie = `accessToken=${response.data.accessToken}; path=/; HttpOnly; Secure`;
+      document.cookie = `refreshToken=${response.data.refreshToken}; path=/; HttpOnly; Secure`;
+
+      toast({
+        title: "Login Successful",
+        description: "You are now logged in!",
+      });
+
+      window.location.href = "/";
+    } catch (error: unknown) {
+      if (error instanceof Error) {
+        toast({ title: "Error", description: error.message });
+      } else {
+        toast({ title: "Error", description: "An unexpected error occurred" });
+      }
+    }
   }
 
   return (
@@ -92,4 +88,5 @@ const LoginPage = () => {
     </AuthSection>
   );
 };
+
 export default LoginPage;

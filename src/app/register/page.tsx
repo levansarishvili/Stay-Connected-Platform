@@ -9,6 +9,8 @@ const RegisterPage = async () => {
     return <p>You are already logged in!</p>;
   }
 
+  console.log(accessToken);
+
   return (
     <main className="flex min-h-screen items-center justify-center">
       <Register />
