@@ -1,7 +1,7 @@
 "use client";
 import { useState } from "react";
-import QuestionAndDetailsList from "../../components/QuestionListWithAnswers";
-import RatingsSideBar from "../../components/RatingsSideBar";
+import QuestionAndDetailsList from "../../../components/QuestionListWithAnswers";
+import RatingsSideBar from "../../../components/RatingsSideBar";
 
 interface Question {
   id: number;

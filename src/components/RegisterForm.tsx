@@ -3,7 +3,7 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
-
+import { useRouter } from "next/navigation";
 import { toast } from "@/hooks/use-toast";
 import AuthButtons from "@/components/AuthButtons";
 import AuthSection from "@/components/AuthSection";
@@ -57,6 +57,7 @@ const Register = () => {
       confirmPassword: "",
     },
   });
+  const router = useRouter();
 
   async function onSubmit(data: z.infer<typeof RegisterSchema>) {
     try {
@@ -66,7 +67,14 @@ const Register = () => {
         body: JSON.stringify(data),
       });
 
-      if (!response.ok) throw new Error("Registration failed");
+      if (!response.ok) {
+        const errorMsg = await response.json();
+        if (errorMsg.email) {
+          form.setError("email", { message: errorMsg.email[0] });
+          return;
+        }
+        throw new Error("Registration failed");
+      }
 
       const result = await response.json();
       console.log("Registration successful:", result);
@@ -75,6 +83,9 @@ const Register = () => {
         title: "Registration Successful",
         description: "You have successfully registered.",
       });
+
+      form.reset();
+      router.push("/home");
     } catch (error: unknown) {
       if (error instanceof Error) {
         toast({ title: "Error", description: error.message });
