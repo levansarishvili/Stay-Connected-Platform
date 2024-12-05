@@ -7,7 +7,6 @@ stages:
   - deploy
 
 variables:
-  IMAGE_NAME: $CI_REGISTRY/$CI_PROJECT_PATH:$CI_COMMIT_REF_NAME #Ar mushaobs
   CONTAINER_TEST_IMAGE: $CI_REGISTRY_IMAGE:$CI_COMMIT_REF_SLUG  #Ase mushaobs
   CONTAINER_RELEASE_IMAGE: $CI_REGISTRY_IMAGE:latest
 
@@ -16,10 +15,7 @@ build-staging:
   stage: build-staging
   image: docker:latest
   before_script:
-    - echo $CONTAINER_TEST_IMAGE
-    - echo $CONTAINER_RELEASE_IMAGE
-    - echo $CI_PROJECT_DIR
-    - echo "$CI_REGISTRY_PASS" | docker login $CI_REGISTRY --username $CI_REGISTRY_USER --password-stdin
+    #- echo "$CI_REGISTRY_PASS" | docker login $CI_REGISTRY --username $CI_REGISTRY_USER --password-stdin
   script:
     - echo "Creating .env file"
     - echo -e "DATA_API_URL=$STAGING_API_URL\nFRONTEND_URL=$STAGING_FRONTEND_URL" > .env
