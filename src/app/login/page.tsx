@@ -57,24 +57,22 @@ const LoginPage = () => {
     },
   });
 
-  // Handle form submission
   function onSubmit(data: z.infer<typeof FormSchema>) {
     toast({
       title: "Login Successful",
       description: (
-        <pre className="mt-2 w-[340px] rounded-md bg-slate-950 p-4">
-          <code className="text-white">{JSON.stringify(data, null, 2)}</code>
+        <pre className="absolute top-0 mt-4 w-[340px] rounded-lg bg-gray-900 p-10 shadow-lg border border-gray-700">
+          <code className="block text-white text-md font-mono whitespace-pre-wrap overflow-x-auto">
+            {JSON.stringify(data, null, 2)}
+          </code>
         </pre>
       ),
     });
-
-    // Insert your login logic here (e.g., API call)
   }
 
   return (
     <AuthSection authType="Log In">
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-10">
-        {/* Email Input */}
         <InputComponent
           inputType="email"
           placeholder="Email"
