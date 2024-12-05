@@ -32,7 +32,7 @@ build-production:
   stage: build-production
   image: docker:latest
   before_script:
-    - #echo $CONTAINER_RELEASE_IMAGE
+    #- echo $CONTAINER_RELEASE_IMAGE
   script:
     - echo "Creating .env file"
     - echo -e "DATA_API_URL=$PRODUCTION_API_URL\nFRONTEND_URL=$PRODUCTION_FRONTEND_URL" > .env
