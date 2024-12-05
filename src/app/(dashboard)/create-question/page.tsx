@@ -1,7 +1,7 @@
-import { Input } from "../../components/ui/input";
-import { Textarea } from "../../components/ui/textarea";
-import { Button } from "../../components/ui/button";
-import TagsSelect from "../../components/TagsSelect";
+import { Input } from "../../../components/ui/input";
+import { Textarea } from "../../../components/ui/textarea";
+import { Button } from "../../../components/ui/button";
+import TagsSelect from "../../../components/TagsSelect";
 
 export default function CreateQuestionPage() {
   return (

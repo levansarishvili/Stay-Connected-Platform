@@ -3,7 +3,7 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
-
+import { useRouter } from "next/navigation";
 import { toast } from "@/hooks/use-toast";
 import AuthButtons from "@/components/AuthButtons";
 import AuthSection from "@/components/AuthSection";
@@ -57,6 +57,7 @@ const Register = () => {
       confirmPassword: "",
     },
   });
+  const router = useRouter();
 
   async function onSubmit(data: z.infer<typeof RegisterSchema>) {
     try {
@@ -84,7 +85,7 @@ const Register = () => {
       });
 
       form.reset();
-      window.location.href = "/";
+      router.push("/home");
     } catch (error: unknown) {
       if (error instanceof Error) {
         toast({ title: "Error", description: error.message });

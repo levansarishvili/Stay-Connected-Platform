@@ -1,11 +1,33 @@
-import QuestionList from "../components/QuestionList";
-import RatingsSideBar from "../components/RatingsSideBar";
+"use client";
 
-export default function Home() {
+import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
+
+const LoginPage = () => {
+  const [loading, setLoading] = useState(true);
+  const router = useRouter();
+
+  useEffect(() => {
+    const token = document.cookie
+      .split("; ")
+      .find((row) => row.startsWith("accessToken"))
+      ?.split("=")[1];
+
+    if (token) {
+      router.push("/home");
+    } else {
+      setLoading(false);
+      router.push("/login");
+    }
+  }, [router]);
+
+  if (loading) return <div>Loading...</div>;
+
   return (
-    <main className="grid grid-cols-[1fr] md:grid-cols-[2fr,1fr] gap-28 mx-auto mt-20 max-w-[136rem] px-12 md:px-16">
-      <QuestionList />
-      <RatingsSideBar />
-    </main>
+    <div>
+      <h1>Loading</h1>
+    </div>
   );
-}
+};
+
+export default LoginPage;

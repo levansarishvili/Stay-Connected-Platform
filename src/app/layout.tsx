@@ -4,7 +4,6 @@ import "./globals.css";
 import Header from "../components/Header";
 import { Toaster } from "@/components/ui/toaster";
 
-// If loading a variable font, you don't need to specify the font weight
 const inter = Inter({
   subsets: ["latin"],
   display: "swap",

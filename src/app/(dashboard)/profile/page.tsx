@@ -1,11 +1,11 @@
 import React from "react";
 import { LogOut } from "lucide-react";
-import { Button } from "../../components/ui/button";
+import { Button } from "../../../components/ui/button";
 import {
   Avatar,
   AvatarFallback,
   AvatarImage,
-} from "../../components/ui/avatar";
+} from "../../../components/ui/avatar";
 
 const Profile = () => {
   return (
