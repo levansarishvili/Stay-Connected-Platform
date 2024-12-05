@@ -77,6 +77,7 @@ const Register = () => {
       });
 
       form.reset();
+      window.location.href = "/";
     } catch (error: unknown) {
       if (error instanceof Error) {
         toast({ title: "Error", description: error.message });
