@@ -14,9 +14,9 @@ fi
 
 # Set the API_URL
 if [ "$CI_ENVIRONMENT_NAME" == "production" ]; then
-  API_URL=$PRODUCTION_API_URL
+  DATA_API_URL=$PRODUCTION_API_URL
 elif [ "$CI_ENVIRONMENT_NAME" == "staging" ]; then
-  API_URL=$STAGING_API_URL
+  DATA_API_URL=$STAGING_API_URL
 else
   echo "Unknown environment: $CI_ENVIRONMENT_NAME"
   exit 1
