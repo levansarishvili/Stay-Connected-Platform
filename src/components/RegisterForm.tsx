@@ -66,7 +66,14 @@ const Register = () => {
         body: JSON.stringify(data),
       });
 
-      if (!response.ok) throw new Error("Registration failed");
+      if (!response.ok) {
+        const errorMsg = await response.json();
+        if (errorMsg.email) {
+          form.setError("email", { message: errorMsg.email[0] });
+          return;
+        }
+        throw new Error("Registration failed");
+      }
 
       const result = await response.json();
       console.log("Registration successful:", result);
