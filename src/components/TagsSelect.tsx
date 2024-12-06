@@ -3,6 +3,7 @@
 import Select from "react-select";
 import makeAnimated from "react-select/animated";
 import CreatableSelect from "react-select/creatable";
+import { useState, useEffect } from "react";
 
 const animatedComponents = makeAnimated();
 
@@ -17,6 +18,34 @@ const options = [
 ];
 
 export default function AnimatedMulti() {
+  const [options, setOptions] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchTags = async () => {
+      try {
+        const response = await fetch(
+          "http://ios-stg.stayconnected.digital/api/tags/"
+        );
+        if (!response.ok) {
+          throw new Error("Failed to fetch tags");
+        }
+        const data = await response.json();
+        const formattedOptions = data.map((tag) => ({
+          value: tag.name,
+          label: tag.name,
+          color: tag.color,
+        }));
+        setOptions(formattedOptions);
+        setLoading(false);
+      } catch (error) {
+        console.error("Error fetching tags:", error);
+        setLoading(false);
+      }
+    };
+
+    fetchTags();
+  }, []);
   return (
     <>
       <CreatableSelect
