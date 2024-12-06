@@ -7,6 +7,7 @@ import { Button } from "../../../components/ui/button";
 import TagsSelect from "../../../components/TagsSelect";
 import Error from "next/error";
 import { toast } from "@/hooks/use-toast";
+import { useRouter } from "next/navigation";
 
 interface FormData {
   title: string;
@@ -21,6 +22,8 @@ function CreateQuestionPage() {
     tags_list: [],
   });
 
+  const router = useRouter();
+
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
@@ -28,6 +31,13 @@ function CreateQuestionPage() {
     setFormData((prev) => ({
       ...prev,
       [name]: name === "tags_list" ? value.split(",") : value,
+    }));
+  };
+
+  const handleTagsChange = (selectedTags: string[]) => {
+    setFormData((prev) => ({
+      ...prev,
+      tags_list: selectedTags,
     }));
   };
 
@@ -56,6 +66,9 @@ function CreateQuestionPage() {
         title: "Congratulations",
         description: "Question created successfully",
       });
+
+      router.push("/home");
+
       console.log(result);
     } catch (error: unknown) {
       if (error instanceof Error) {
@@ -121,7 +134,7 @@ function CreateQuestionPage() {
           >
             Tags
           </label>
-          <TagsSelect />
+          <TagsSelect onTagsChange={handleTagsChange} />
         </div>
 
         {/* Submit Button */}

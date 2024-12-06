@@ -1,8 +1,5 @@
-// import NotFoundPage from "../../../not-found";
-import ReturnBackButton from "../../../../components/ReturnBackBtn";
 import { cookies } from "next/headers";
-// import { Params } from "../../../../interfaces/params";
-// import "../../../../../index.css";
+import ReturnBackButton from "../../../../components/ReturnBackBtn";
 
 export interface Params {
   id: number;
@@ -11,9 +8,7 @@ export interface Params {
 
 const QuestionDetails = async ({ params }: { params: Params }) => {
   const cookieStore = cookies();
-  const userId = cookieStore.get("id")?.value;
   const accessToken = cookieStore.get("accessToken")?.value;
-
   const { id } = params;
 
   const response = await fetch(
@@ -28,35 +23,51 @@ const QuestionDetails = async ({ params }: { params: Params }) => {
   );
 
   if (!response.ok) {
-    // return <NotFoundPage />;
+    // Handle error if needed, e.g., display a "not found" page.
+    return <div>Question not found</div>;
   }
 
-  const product = await response.json();
+  const question = await response.json();
 
-  if (!product || !product.id) {
-    // return <NotFoundPage />;
+  if (!question || !question.id) {
+    // Handle error if no data is returned.
+    return <div>Question not found</div>;
   }
+
   return (
     <section className="products-section product">
-      <h1>{product.author} Product</h1>
-      <div key={product.title} className="products">
+      <h1>{question.author} Question</h1>
+      <div key={question.title} className="products">
         <div className="product-list">
           <div className="image-container">
-            <img src={product.tags} alt="" className="product-img" />
+            <img
+              src={question.tags[0]?.color}
+              alt="tag"
+              className="product-img"
+            />
           </div>
           <div className="product-info">
-            <h2 className="text-blue-800 font-bold text-2xl">{product.name}</h2>
-            <p>{product.description}</p>
-            <p className="font-bold italic">Brand: {product.brand}</p>
-            <p className="font-semibold">Category: {product.category}</p>
-            <p className="price">Price: ${product.price}</p>
+            <h2 className="text-blue-800 font-bold text-2xl">
+              {question.title}
+            </h2>
+            <p>{question.question}</p>
+            <div className="tags">
+              {question.tags.map((tag: { name: string; color: string }) => (
+                <span
+                  key={tag.name}
+                  className="px-4 py-1 rounded-lg"
+                  style={{ backgroundColor: tag.color }}
+                >
+                  {tag.name}
+                </span>
+              ))}
+            </div>
           </div>
         </div>
-        <div className="return-back">
-          <ReturnBackButton />
-        </div>
+        <ReturnBackButton />
       </div>
     </section>
   );
 };
+
 export default QuestionDetails;
