@@ -127,17 +127,11 @@ function CreateQuestionPage() {
         {/* Submit Button */}
         <Button
           type="submit"
-          className="mt-12 w-60 md:w-full md:max-w-md rounded-md text-xl md:text-2xl h-16 px-8 md:px-12 hover:bg-[#777E99] text-white shadow-lg transition duration-300"
+          className="mt-12 mx-auto w-90 md:w-full md:max-w-md rounded-md text-xl md:text-2xl h-16 px-8 md:px-12 hover:bg-[#777E99] text-white shadow-lg transition duration-300"
         >
           Create Question
         </Button>
       </form>
-
-      {/* {responseMessage && (
-        <p className="text-lg text-center text-gray-700 mt-4">
-          {responseMessage}
-        </p>
-      )} */}
     </section>
   );
 }
