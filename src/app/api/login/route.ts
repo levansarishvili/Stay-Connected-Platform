@@ -18,8 +18,13 @@ export async function POST(req: NextRequest) {
     const {
       access: accessToken,
       refresh: refreshToken,
-    }: { access: string; refresh: string } = response.data;
-    console.log(accessToken, refreshToken);
+      user: { id },
+    }: {
+      access: string;
+      refresh: string;
+      user: { id: number };
+    } = response.data;
+    console.log(accessToken, refreshToken, id);
 
     // Set cookies
     const res = NextResponse.json({ message: "Login successful" });
@@ -29,11 +34,20 @@ export async function POST(req: NextRequest) {
       path: "/",
       maxAge: 60 * 60 * 24, // 1 day
     });
+
     res.cookies.set("refreshToken", refreshToken, {
       httpOnly: true,
       secure: process.env.NODE_ENV === "production",
       path: "/",
       maxAge: 60 * 60 * 24 * 7, // 1 week
+    });
+
+    // Ensure 'id' is stored as a string
+    res.cookies.set("userId", String(id), {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === "production",
+      path: "/",
+      maxAge: 60 * 60 * 24, // 1 day
     });
 
     return res;

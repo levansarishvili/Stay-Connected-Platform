@@ -1,6 +1,6 @@
 import React from "react";
-import { LogOut } from "lucide-react";
-import { Button } from "../../../components/ui/button";
+import Logout from "../../../components/Logout";
+
 import {
   Avatar,
   AvatarFallback,
@@ -67,10 +67,7 @@ async function Profile() {
         </div>
       </div>
 
-      <Button className="w-40 h-12 flex items-center gap-2 px-6 py-3 bg-[#4F46E5] text-white rounded-lg shadow hover:bg-[#777E99]">
-        <span className="text-xl">Logout</span>
-        <LogOut />
-      </Button>
+      <Logout />
     </section>
   );
 }
