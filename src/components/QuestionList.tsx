@@ -62,7 +62,7 @@ export function SingleQuestion({
       <h2 className="text-2xl text-[#3C3C4399]">{title}</h2>
       <p className="text-xl">{question}</p>
       <div className="flex flex-col md:flex-row gap-6 justify-between items-center w-full">
-        <div className="flex gap-4">
+        <div className="flex flex-wrap gap-4 max-w-[60rem]">
           {/* Render tags here using the Tag component */}
           {Array.isArray(tags) &&
             tags.map((tag, index) => (
