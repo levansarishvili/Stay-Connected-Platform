@@ -1,110 +1,58 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import Select from "react-select";
 import makeAnimated from "react-select/animated";
-import CreatableSelect from "react-select/creatable";
-import { useState, useEffect } from "react";
 
 const animatedComponents = makeAnimated();
 
-const options = [
-  { value: "Frontend", label: "Frontend" },
-  { value: "iOS", label: "iOS" },
-  { value: "SwiftUI", label: "SwiftUI" },
-  { value: "API", label: "API" },
-  { value: "UIKit", label: "UIKit" },
-  { value: "Backend", label: "Backend" },
-  { value: "Database", label: "Database" },
-];
-
 export default function AnimatedMulti() {
-  const [options, setOptions] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const [tags, setTags] = useState<
+    { value: string; label: string; color: string }[]
+  >([]);
+  const [isLoggedIn, setIsLoggedIn] = useState(true); 
 
   useEffect(() => {
     const fetchTags = async () => {
       try {
-        const response = await fetch(
-          "http://ios-stg.stayconnected.digital/api/tags/"
-        );
+        const response = await fetch("/api/tags", {
+          method: "GET",
+        });
+
         if (!response.ok) {
-          throw new Error("Failed to fetch tags");
+          const errorData = await response.json();
+          if (errorData.error === "Unauthorized") {
+            setIsLoggedIn(false);
+            return; 
+          }
+          console.error("Error fetching tags:", errorData);
+          return;
         }
+
         const data = await response.json();
-        const formattedOptions = data.map((tag) => ({
-          value: tag.name,
-          label: tag.name,
-          color: tag.color,
-        }));
-        setOptions(formattedOptions);
-        setLoading(false);
+        setTags(data); 
+        setIsLoggedIn(true);
       } catch (error) {
-        console.error("Error fetching tags:", error);
-        setLoading(false);
+        console.error("Error:", error);
       }
     };
 
     fetchTags();
   }, []);
+
+  if (!isLoggedIn) {
+    return <p>Token is invalid</p>; 
+  }
+
   return (
     <>
-      <CreatableSelect
-        isMulti
-        options={options}
-        styles={{
-          control: (base, state) => ({
-            ...base,
-            borderRadius: "1rem",
-            fontSize: "1.4rem",
-            border: "1px solid #85858591",
-            boxShadow: state.isFocused ? "black" : base.boxShadow,
-          }),
-
-          menu: (base) => ({
-            ...base,
-            borderRadius: "1rem",
-            fontSize: "1.4rem",
-          }),
-          option: (base) => ({
-            ...base,
-            borderRadius: "1rem",
-            color: "#4F46E5",
-            fontSize: "1.4rem",
-          }),
-          multiValue: (base) => ({
-            ...base,
-            borderRadius: "1rem",
-            backgroundColor: "#EEF2FF",
-            color: "#4F46E5",
-            fontSize: "1.4rem",
-          }),
-          multiValueLabel: (base) => ({
-            ...base,
-            color: "#4F46E5",
-          }),
-          multiValueRemove: (base) => ({
-            ...base,
-            ":hover": {
-              svg: {
-                color: "red",
-              },
-            },
-          }),
-        }}
-      />
       <Select
         instanceId={"tags-select"}
         closeMenuOnSelect={false}
         components={animatedComponents}
-        defaultValue={[
-          options[0],
-          options[1],
-          options[2],
-          options[3],
-          options[4],
-        ]}
+        defaultValue={tags.slice(0, 5)} 
         isMulti
-        options={options}
+        options={tags}
         styles={{
           control: (base, state) => ({
             ...base,
@@ -119,23 +67,32 @@ export default function AnimatedMulti() {
             borderRadius: "1rem",
             fontSize: "1.4rem",
           }),
-          option: (base) => ({
-            ...base,
-            borderRadius: "1rem",
-            color: "#4F46E5",
-            fontSize: "1.4rem",
-          }),
+
+          option: (base, state) => {
+            const tagColor = tags.find(
+              (opt) => opt.value === base.value
+            )?.color;
+            return {
+              ...base,
+              borderRadius: "1rem",
+              color: state.isSelected ? "#FFFFFF" : tagColor, 
+              backgroundColor: state.isSelected ? tagColor : "#FFFFFF", 
+              fontSize: "1.4rem",
+            };
+          },
+
           multiValue: (base) => ({
             ...base,
             borderRadius: "1rem",
-            backgroundColor: "#EEF2FF",
-            color: "#4F46E5",
+            backgroundColor: "#000",
             fontSize: "1.4rem",
           }),
-          multiValueLabel: (base) => ({
+
+          multiValueLabel: (base, { data }) => ({
             ...base,
-            color: "#4F46E5",
+            color: data.color, 
           }),
+
           multiValueRemove: (base) => ({
             ...base,
             ":hover": {

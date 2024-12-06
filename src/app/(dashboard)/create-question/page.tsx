@@ -5,17 +5,25 @@ import { Input } from "../../../components/ui/input";
 import { Textarea } from "../../../components/ui/textarea";
 import { Button } from "../../../components/ui/button";
 import TagsSelect from "../../../components/TagsSelect";
+import Error from "next/error";
+import { toast } from "@/hooks/use-toast";
+
+interface FormData {
+  title: string;
+  question: string;
+  tags_list: string[];
+}
 
 function CreateQuestionPage() {
-  const [formData, setFormData] = useState({
+  const [formData, setFormData] = useState<FormData>({
     title: "",
     question: "",
     tags_list: [],
   });
 
-  const [responseMessage, setResponseMessage] = useState(null);
-
-  const handleChange = (e) => {
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
     const { name, value } = e.target;
     setFormData((prev) => ({
       ...prev,
@@ -23,7 +31,7 @@ function CreateQuestionPage() {
     }));
   };
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     try {
@@ -44,11 +52,21 @@ function CreateQuestionPage() {
       }
 
       const result = await response.json();
-      setResponseMessage("Question created successfully!");
+      toast({
+        title: "Congratulations",
+        description: "Question created successfully",
+      });
       console.log(result);
-    } catch (error) {
-      console.error("Error:", error.message);
-      setResponseMessage("Failed to create question. Please try again.");
+    } catch (error: unknown) {
+      if (error instanceof Error) {
+        console.error("Error:", error);
+      } else {
+        console.error("An unknown error occurred");
+      }
+      toast({
+        title: "Error",
+        description: "Failed to create question. Please try again.",
+      });
     }
   };
 
@@ -109,17 +127,17 @@ function CreateQuestionPage() {
         {/* Submit Button */}
         <Button
           type="submit"
-          className="mt-12 w-60 md:w-full md:max-w-md rounded-md text-xl md:text-2xl h-16 px-8 md:px-12 bg-[#4e53a2] hover:bg-[#777E99] text-white shadow-lg transition duration-300"
+          className="mt-12 w-60 md:w-full md:max-w-md rounded-md text-xl md:text-2xl h-16 px-8 md:px-12 hover:bg-[#777E99] text-white shadow-lg transition duration-300"
         >
           Create Question
         </Button>
       </form>
 
-      {responseMessage && (
+      {/* {responseMessage && (
         <p className="text-lg text-center text-gray-700 mt-4">
           {responseMessage}
         </p>
-      )}
+      )} */}
     </section>
   );
 }
