@@ -10,7 +10,7 @@ export default function AnimatedMulti() {
   const [tags, setTags] = useState<
     { value: string; label: string; color: string }[]
   >([]);
-  const [isLoggedIn, setIsLoggedIn] = useState(true); 
+  const [isLoggedIn, setIsLoggedIn] = useState(true);
 
   useEffect(() => {
     const fetchTags = async () => {
@@ -23,14 +23,14 @@ export default function AnimatedMulti() {
           const errorData = await response.json();
           if (errorData.error === "Unauthorized") {
             setIsLoggedIn(false);
-            return; 
+            return;
           }
           console.error("Error fetching tags:", errorData);
           return;
         }
 
         const data = await response.json();
-        setTags(data); 
+        setTags(data);
         setIsLoggedIn(true);
       } catch (error) {
         console.error("Error:", error);
@@ -41,7 +41,7 @@ export default function AnimatedMulti() {
   }, []);
 
   if (!isLoggedIn) {
-    return <p>Token is invalid</p>; 
+    return <p>Token is invalid</p>;
   }
 
   return (
@@ -50,7 +50,7 @@ export default function AnimatedMulti() {
         instanceId={"tags-select"}
         closeMenuOnSelect={false}
         components={animatedComponents}
-        defaultValue={tags.slice(0, 5)} 
+        defaultValue={tags.slice(0, 5)}
         isMulti
         options={tags}
         styles={{
@@ -75,8 +75,8 @@ export default function AnimatedMulti() {
             return {
               ...base,
               borderRadius: "1rem",
-              color: state.isSelected ? "#FFFFFF" : tagColor, 
-              backgroundColor: state.isSelected ? tagColor : "#FFFFFF", 
+              color: state.isSelected ? "#FFFFFF" : tagColor,
+              backgroundColor: state.isSelected ? tagColor : "#FFFFFF",
               fontSize: "1.4rem",
             };
           },
@@ -90,7 +90,7 @@ export default function AnimatedMulti() {
 
           multiValueLabel: (base, { data }) => ({
             ...base,
-            color: data.color, 
+            color: data.color,
           }),
 
           multiValueRemove: (base) => ({
