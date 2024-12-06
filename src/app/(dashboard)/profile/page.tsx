@@ -6,8 +6,29 @@ import {
   AvatarFallback,
   AvatarImage,
 } from "../../../components/ui/avatar";
+import { cookies } from "next/headers";
 
-const Profile = () => {
+async function Profile() {
+  const cookieStore = cookies();
+  const userId = cookieStore.get("userId")?.value;
+  const accessToken = cookieStore.get("accessToken")?.value;
+
+  console.log("UserId:", userId);
+  console.log("accessToken:", accessToken);
+
+  const response = await fetch(
+    `http://ios-stg.stayconnected.digital/api/users/${userId}`,
+    {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${accessToken}`,
+      },
+    }
+  );
+  const userData = await response.json();
+  console.log(userData);
+
   return (
     <section className="flex flex-col items-center gap-12 mx-auto mt-20 max-w-4xl w-full p-8 bg-white rounded-lg shadow-lg">
       <h2 className="text-4xl font-semibold text-gray-800">Profile</h2>
@@ -52,6 +73,6 @@ const Profile = () => {
       </Button>
     </section>
   );
-};
+}
 
 export default Profile;

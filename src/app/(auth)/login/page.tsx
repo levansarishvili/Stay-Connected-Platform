@@ -5,11 +5,10 @@ import { useForm } from "react-hook-form";
 import { z } from "zod";
 import axios from "axios";
 import { toast } from "@/hooks/use-toast";
-import { AxiosError } from "axios";
+
 import AuthButtons from "../../../components/AuthButtons";
 import AuthSection from "../../../components/AuthSection";
 import InputComponent from "../../../components/Input";
-import { useRouter } from "next/navigation";
 
 const FormSchema = z.object({
   email: z
@@ -41,35 +40,21 @@ const LoginPage = () => {
       password: "",
     },
   });
-  const router = useRouter();
 
   async function onSubmit(data: z.infer<typeof FormSchema>) {
     try {
-      const response = await axios.post(
-        "http://localhost:8000/api/token/",
-        data
-      );
-
-      document.cookie = `accessToken=${response.data.accessToken}; path=/; HttpOnly; Secure`;
-      document.cookie = `refreshToken=${response.data.refreshToken}; path=/; HttpOnly; Secure`;
+      const response = await axios.post("/api/login", data);
+      console.log(response.data);
 
       toast({
         title: "Login Successful",
         description: "You are now logged in!",
       });
 
-      router.push("/home");
+      window.location.href = "/home";
     } catch (error: unknown) {
-      if (error instanceof AxiosError) {
-        const errorData = error.response?.data;
-        // console.log(error.response);
-
-        if (errorData) {
-          toast({
-            title: `${error.response?.statusText} user`,
-            description: errorData.detail,
-          });
-        }
+      if (error instanceof Error) {
+        toast({ title: "Error", description: error.message });
       } else {
         toast({ title: "Error", description: "An unexpected error occurred" });
       }
