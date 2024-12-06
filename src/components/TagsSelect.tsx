@@ -104,6 +104,7 @@ export default function AnimatedMulti({ onTagsChange }: TagsSelectProps) {
 
         multiValueRemove: (base) => ({
           ...base,
+          color: "white",
           ":hover": {
             svg: {
               color: "red",
