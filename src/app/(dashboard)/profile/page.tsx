@@ -42,12 +42,14 @@ async function Profile() {
       </Avatar>
 
       <div className="flex flex-col items-center gap-2">
-        <h2 className="text-2xl font-semibold text-gray-700">Eiden Goldman</h2>
+        <h2 className="text-2xl font-semibold text-gray-700">
+          {userData.first_name} {userData.last_name}
+        </h2>
         <a
           href="mailto:shawn_howard@gmail.com"
           className="text-xl text-indigo-500 hover:underline"
         >
-          shawn_howard@gmail.com
+          {userData.email}
         </a>
       </div>
 
@@ -58,11 +60,13 @@ async function Profile() {
         <div className="flex flex-col gap-8">
           <div className="flex justify-between items-center border-b pb-4 text-2xl">
             <p className="text-gray-600">Score</p>
-            <p className="font-medium text-gray-800">25</p>
+            <p className="font-medium text-gray-800">{userData.score}</p>
           </div>
           <div className="flex justify-between items-center border-b pb-4 text-2xl">
             <p className="text-gray-600">Answered Questions</p>
-            <p className=" font-medium text-gray-800">15</p>
+            <p className=" font-medium text-gray-800">
+              {userData.answered_questions}
+            </p>
           </div>
         </div>
       </div>
