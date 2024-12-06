@@ -27,13 +27,6 @@ export async function POST(req: NextRequest) {
       userId: id,
     });
 
-    res.cookies.set("userId", id, {
-      httpOnly: true,
-      secure: process.env.NODE_ENV === "production",
-      path: "/",
-      maxAge: 60 * 60 * 24 * 7, // 1 week
-    });
-
     return res;
   } catch (error: unknown) {
     // Check if the error is an Axios error
