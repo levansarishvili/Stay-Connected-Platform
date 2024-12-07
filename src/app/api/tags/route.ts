@@ -7,19 +7,18 @@ import { getAccessToken } from "@/lib/cookies"; // Make sure this function is co
 export async function GET() {
   const accessToken = getAccessToken();
 
+  const url = process.env.DATA_API_URL;
+
   if (!accessToken) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 
   try {
-    const response = await axios.get(
-      "https://ios-stg.stayconnected.digital/api/tags/",
-      {
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
-        },
-      }
-    );
+    const response = await axios.get(`${url}/api/tags/`, {
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      },
+    });
 
     console.log(response.data);
 
