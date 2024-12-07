@@ -2,11 +2,11 @@ import { cookies } from "next/headers";
 
 interface QuestionType {
   id: number;
-  author: string;
+  author: number; // Correct type: number (not string)
   title: string;
   question: string;
-  tags: { name: string; color: string }[] | string[];
-  correct_answer: string | null;
+  tags: { name: string; color: string }[]; // Correct type for tags
+  correct_answer: number | null; // Correct type for correct_answer
 }
 
 interface TagType {
@@ -28,7 +28,7 @@ export default async function QuestionList() {
       },
     }
   );
-  const questionsData: QuestionType[] = (await response.json()).results;
+  const questionsData: QuestionType[] = await response.json();
   console.log(questionsData);
 
   return (
@@ -37,10 +37,11 @@ export default async function QuestionList() {
       <ul className="flex flex-col gap-8 w-full">
         {questionsData.map((question) => (
           <SingleQuestion
-            key={question.id}
+            key={question.id} // Use question.id as the key for better performance
             title={question.title}
             question={question.question}
             tags={question.tags}
+            correct_answer={question.correct_answer}
           />
         ))}
       </ul>
@@ -52,10 +53,12 @@ export function SingleQuestion({
   title,
   question,
   tags,
+  correct_answer,
 }: {
   title: string;
   question: string;
-  tags: { name: string; color: string }[] | string[];
+  tags: { name: string; color: string }[]; // Correct type for tags
+  correct_answer: number | null; // Correct type for correct_answer
 }) {
   return (
     <li className="flex flex-col items-start gap-8 p-6 rounded-lg bg-[#fff] cursor-pointer">
@@ -64,18 +67,14 @@ export function SingleQuestion({
       <div className="flex flex-col md:flex-row gap-6 justify-between items-center w-full">
         <div className="flex flex-wrap gap-4 max-w-[60rem]">
           {/* Render tags here using the Tag component */}
-          {Array.isArray(tags) &&
-            tags.map((tag, index) => (
-              <Tag
-                key={index}
-                name={typeof tag === "object" ? tag.name : tag}
-                color={typeof tag === "object" ? tag.color : "#fff"}
-              />
-            ))}
+          {tags.map((tag) => (
+            <Tag key={tag.name} name={tag.name} color={tag.color} />
+          ))}
         </div>
-        <div className="flex gap-6">
-          <span className="text-xl">Answer 1</span>
-          <span className="text-[#3C3C4399] text-xl">Date Time</span>
+        <div className="flex">
+          <span className="text-xl">
+            {`Answers: ${correct_answer === null ? 0 : correct_answer}`}
+          </span>
         </div>
       </div>
     </li>
