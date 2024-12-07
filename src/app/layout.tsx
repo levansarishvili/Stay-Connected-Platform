@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
-import Header from "../components/Header";
 import { Toaster } from "@/components/ui/toaster";
 
 const inter = Inter({
@@ -23,7 +22,6 @@ export default function RootLayout({
   return (
     <html lang="en" className={`${inter.className} text-[55%] md:text-[62.5%]`}>
       <body>
-        <Header />
         {children}
         <Toaster />
       </body>
