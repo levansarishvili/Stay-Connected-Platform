@@ -17,14 +17,18 @@ interface Answer {
 interface AnswerListProps {
   answers: Answer[];
   accessToken: string;
+  url: string;
 }
 
-const AnswerList: React.FC<AnswerListProps> = ({ answers, accessToken }) => {
+const AnswerList: React.FC<AnswerListProps> = ({
+  answers,
+  accessToken,
+  url,
+}) => {
   const [answerState, setAnswerState] = useState(answers);
 
   const handleReaction = async (id: number, action: "like" | "dislike") => {
-    const url = process.env.DATA_API_URL;
-    const endpoint = `https://ios-stg.stayconnected.digital/api/answers/${id}/${action}/`;
+    const endpoint = `${url}/api/answers/${id}/${action}/`;
 
     try {
       if (!accessToken) {

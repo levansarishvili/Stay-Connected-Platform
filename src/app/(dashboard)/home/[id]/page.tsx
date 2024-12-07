@@ -1,4 +1,3 @@
-// QuestionDetails.tsx
 import React from "react";
 import { cookies } from "next/headers";
 import AddAnswer from "../../../../components/AddAnswer";
@@ -48,7 +47,11 @@ const QuestionDetails = async ({ params }: { params: Params }) => {
         </div>
       </div>
 
-      <AnswerList answers={question.answers} accessToken={accessToken || ""} />
+      <AnswerList
+        answers={question.answers}
+        accessToken={accessToken || ""}
+        url={url || ""}
+      />
 
       <AddAnswer questionId={question.id} accessToken={accessToken || ""} />
     </section>
