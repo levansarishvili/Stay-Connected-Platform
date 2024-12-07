@@ -17,14 +17,20 @@ interface Answer {
 interface AnswerListProps {
   answers: Answer[];
   accessToken: string;
+  url: string;
 }
 
-const AnswerList: React.FC<AnswerListProps> = ({ answers, accessToken }) => {
+const AnswerList: React.FC<AnswerListProps> = ({
+  answers,
+  accessToken,
+  url,
+}) => {
   const [answerState, setAnswerState] = useState(answers);
 
   const handleReaction = async (id: number, action: "like" | "dislike") => {
-    const url = process.env.NEXT_PUBLIC_DATA_API_URL;
     const endpoint = `${url}/api/answers/${id}/${action}/`;
+
+    console.log(endpoint);
 
     try {
       if (!accessToken) {
