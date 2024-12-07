@@ -6,13 +6,13 @@ export interface Params {
 }
 
 const QuestionDetails = async ({ params }: { params: Params }) => {
-  console.log(params);
   const cookieStore = cookies();
   const accessToken = cookieStore.get("accessToken")?.value;
   const { id } = params;
   console.log(id, accessToken);
 
-  const response = await fetch(
+  // Fetch question details
+  const responseQuestion = await fetch(
     `http://ios-stg.stayconnected.digital/api/questions/${id}`,
     {
       method: "GET",
@@ -23,26 +23,33 @@ const QuestionDetails = async ({ params }: { params: Params }) => {
     }
   );
 
-  if (!response.ok) {
+  // Fetch answer details
+  const responseAnswer = await fetch(
+    `http://ios-stg.stayconnected.digital/api/questions/${id}/answers/`,
+    {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${accessToken}`,
+      },
+    }
+  );
+
+  if (!responseQuestion.ok || !responseAnswer.ok) {
     // Handle error if needed, e.g., display a "not found" page.
     return <div>Question not found</div>;
   }
 
-  const question = await response.json();
-  console.log(question);
+  const question = await responseQuestion.json();
+  const answers = await responseAnswer.json();
+  console.log(question, answers);
 
   if (!question || !question.id) {
     // Handle error if no data is returned.
     return <div>Question not found</div>;
   }
 
-  return (
-    <section className="products-section product">
-      <h1 className="text-4xl font-semibold text-gray-800">
-        Question Details page
-      </h1>
-    </section>
-  );
+  return <section className="products-section product">Details page</section>;
 };
 
 export default QuestionDetails;
