@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { cookies } from "next/headers";
+import Search from "../components/Search";
 
 interface QuestionType {
   id: number;
@@ -15,25 +16,47 @@ interface TagType {
   color: string;
 }
 
-export default async function QuestionList() {
+export default async function QuestionList({
+  searchParams,
+}: {
+  searchParams: { [key: string]: string | string[] | undefined };
+}) {
   const cookieStore = cookies();
   const accessToken = cookieStore.get("accessToken")?.value;
 
   const url = process.env.DATA_API_URL;
+  const searchQueryTags = searchParams.tags || "";
+  const searchQueryTitle = searchParams.title || "";
 
-  const response = await fetch(`${url}/api/questions/`, {
-    method: "GET",
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: `Bearer ${accessToken}`,
-    },
-  });
+  console.log(searchQueryTags, searchQueryTitle);
+
+  const response = await fetch(
+    `${url}/api/questions/?tags=${searchQueryTags}&title=${searchQueryTitle}`,
+    {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${accessToken}`,
+      },
+    }
+  );
   const questionsData: QuestionType[] = await response.json();
-  console.log(questionsData);
+
+  if (questionsData.length === 0) {
+    return (
+      <div className="flex flex-col gap-64 items-center">
+        <Search />
+        <h2 className="text-4xl font-semibold text-gray-800">
+          No questions found 😞
+        </h2>
+      </div>
+    );
+  }
 
   return (
     <div className="flex flex-col gap-6 items-center">
-      <h1 className="text-4xl font-semibold text-gray-800">Questions</h1>
+      <Search />
+
       <ul className="flex flex-col gap-8 w-full">
         {questionsData.map((question) => (
           <SingleQuestion
