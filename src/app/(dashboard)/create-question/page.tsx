@@ -44,6 +44,15 @@ function CreateQuestionPage() {
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
+    // Validate if tags are selected
+    if (formData.tags_list.length === 0) {
+      toast({
+        title: "Error",
+        description: "Please select at least one tag.",
+      });
+      return;
+    }
+
     try {
       console.log("Payload:", JSON.stringify(formData));
 
