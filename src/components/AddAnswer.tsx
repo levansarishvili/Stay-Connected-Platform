@@ -3,7 +3,7 @@ import React, { useState } from "react";
 
 interface AddAnswerProps {
   questionId: number;
-  accessToken: string; // Add accessToken as a prop
+  accessToken: string;
 }
 
 const AddAnswer: React.FC<AddAnswerProps> = ({ questionId, accessToken }) => {
@@ -24,10 +24,11 @@ const AddAnswer: React.FC<AddAnswerProps> = ({ questionId, accessToken }) => {
     if (newAnswer.trim()) {
       setLoading(true);
       setError(null);
+      const url = process.env.DATA_API_URL;
 
       try {
         const response = await fetch(
-          `https://ios-stg.stayconnected.digital/api/questions/${questionId}/answers/`,
+          `${url}/api/questions/${questionId}/answers`,
           {
             method: "POST",
             headers: {
@@ -56,7 +57,7 @@ const AddAnswer: React.FC<AddAnswerProps> = ({ questionId, accessToken }) => {
       <textarea
         value={newAnswer}
         onChange={handleAnswerChange}
-        className="w-full p-4 border rounded-lg"
+        className="w-full px-6 py-10 border rounded-lg"
         placeholder="Add your answer here..."
       />
       {error && <div className="text-red-500 mt-2">{error}</div>}{" "}
