@@ -12,30 +12,25 @@ const QuestionDetails = async ({ params }: { params: Params }) => {
   const cookieStore = cookies();
   const accessToken = cookieStore.get("accessToken")?.value;
   const { id } = params;
+  const url = process.env.DATA_API_URL;
 
   // Fetch question data
-  const responseQuestion = await fetch(
-    `https://ios-stg.stayconnected.digital/api/questions/${id}`,
-    {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${accessToken}`,
-      },
-    }
-  );
+  const responseQuestion = await fetch(`${url}/api/questions/${id}`, {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${accessToken}`,
+    },
+  });
 
   // Fetch answers data
-  const responseAnswer = await fetch(
-    `https://ios-stg.stayconnected.digital/api/questions/${id}/answers/`,
-    {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${accessToken}`,
-      },
-    }
-  );
+  const responseAnswer = await fetch(`${url}/api/questions/${id}/answers/`, {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${accessToken}`,
+    },
+  });
 
   if (!responseQuestion.ok) {
     return <div>Question not found</div>;
