@@ -4,23 +4,32 @@ import ButtonComponent from "./Button";
 const AuthButtons = ({
   loginBtn,
   registerBtn,
+  onLoginClick,
+  onRegisterClick,
+  isLoginPage,
 }: {
   loginBtn: boolean;
   registerBtn: boolean;
+  onLoginClick: () => void;
+  onRegisterClick: () => void;
+  isLoginPage: boolean;
 }) => {
   return (
     <div className="flex flex-col sm:flex-row gap-5">
+      {/* Login Button */}
       <ButtonComponent
-        type="submit"
+        type={isLoginPage ? "submit" : "button"}
         buttonText={"Sign In"}
         activeBtn={loginBtn}
-        href={"/login"}
+        onClick={!isLoginPage ? onLoginClick : undefined}
       />
+
+      {/* Register Button */}
       <ButtonComponent
-        type="button"
+        type={!isLoginPage ? "submit" : "button"}
         buttonText={"Register"}
         activeBtn={registerBtn}
-        href={"/register"}
+        onClick={isLoginPage ? onRegisterClick : undefined}
       />
     </div>
   );

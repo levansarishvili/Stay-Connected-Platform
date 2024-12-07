@@ -8,6 +8,7 @@ import { toast } from "@/hooks/use-toast";
 import AuthButtons from "@/components/AuthButtons";
 import AuthSection from "@/components/AuthSection";
 import InputComponent from "@/components/Input";
+import { useRouter } from "next/navigation";
 
 const RegisterSchema = z
   .object({
@@ -58,6 +59,8 @@ const Register = () => {
     },
   });
 
+  const router = useRouter();
+
   async function onSubmit(data: z.infer<typeof RegisterSchema>) {
     try {
       const response = await fetch("/api/register", {
@@ -78,9 +81,6 @@ const Register = () => {
         title: "Registration Successful",
         description: "You have successfully registered.",
       });
-
-      // Redirect the user to the login page or another page
-      window.location.href = "/login";
     } catch (error: unknown) {
       if (error instanceof Error) {
         toast({ title: "Error", description: error.message });
@@ -88,6 +88,10 @@ const Register = () => {
         toast({ title: "Error", description: "An unexpected error occurred" });
       }
     }
+  }
+
+  function handleLogin() {
+    router.push("/login");
   }
 
   return (
@@ -123,7 +127,13 @@ const Register = () => {
           register={form.register("confirmPassword")}
           error={form.formState.errors.confirmPassword}
         />
-        <AuthButtons loginBtn={false} registerBtn={true} />
+        <AuthButtons
+          loginBtn={false}
+          registerBtn={true}
+          onLoginClick={handleLogin}
+          onRegisterClick={() => router.push("/register")}
+          isLoginPage={false}
+        />
       </form>
     </AuthSection>
   );
