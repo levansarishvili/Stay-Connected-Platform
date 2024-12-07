@@ -16,64 +16,88 @@ interface Answer {
 
 interface AnswerListProps {
   answers: Answer[];
+  accessToken: string;
 }
 
-const AnswerList: React.FC<AnswerListProps> = ({ answers }) => {
+const AnswerList: React.FC<AnswerListProps> = ({ answers, accessToken }) => {
   const [answerState, setAnswerState] = useState(answers);
 
-  const handleLike = (id: number) => {
-    setAnswerState((prev) =>
-      prev.map((answer) => {
-        if (answer.id === id) {
-          if (answer.liked_by_user) {
-            return { ...answer, likes: answer.likes - 1, liked_by_user: false };
-          } else {
-            return {
-              ...answer,
-              likes: answer.likes + 1,
-              dislikes: answer.disliked_by_user
-                ? answer.dislikes - 1
-                : answer.dislikes,
-              liked_by_user: true,
-              disliked_by_user: false,
-            };
-          }
-        }
-        return answer;
-      })
-    );
-  };
+  const handleReaction = async (id: number, action: "like" | "dislike") => {
+    const url = process.env.DATA_API_URL;
+    const endpoint = `https://ios-stg.stayconnected.digital/api/answers/${id}/${action}/`;
 
-  const handleDislike = (id: number) => {
-    setAnswerState((prev) =>
-      prev.map((answer) => {
-        if (answer.id === id) {
-          if (answer.disliked_by_user) {
-            return {
-              ...answer,
-              dislikes: answer.dislikes - 1,
-              disliked_by_user: false,
-            };
-          } else {
-            return {
-              ...answer,
-              dislikes: answer.dislikes + 1,
-              likes: answer.liked_by_user ? answer.likes - 1 : answer.likes,
-              disliked_by_user: true,
-              liked_by_user: false,
-            };
-          }
-        }
-        return answer;
-      })
-    );
+    try {
+      if (!accessToken) {
+        console.error("No access token found");
+        return;
+      }
+
+      const response = await fetch(endpoint, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${accessToken}`,
+        },
+        body: JSON.stringify({}),
+      });
+
+      if (response.ok) {
+        setAnswerState((prev) =>
+          prev.map((answer) => {
+            if (answer.id === id) {
+              if (action === "like") {
+                if (answer.liked_by_user) {
+                  return {
+                    ...answer,
+                    likes: answer.likes - 1,
+                    liked_by_user: false,
+                  };
+                } else {
+                  return {
+                    ...answer,
+                    likes: answer.likes + 1,
+                    dislikes: answer.disliked_by_user
+                      ? answer.dislikes - 1
+                      : answer.dislikes,
+                    liked_by_user: true,
+                    disliked_by_user: false,
+                  };
+                }
+              } else if (action === "dislike") {
+                if (answer.disliked_by_user) {
+                  return {
+                    ...answer,
+                    dislikes: answer.dislikes - 1,
+                    disliked_by_user: false,
+                  };
+                } else {
+                  return {
+                    ...answer,
+                    dislikes: answer.dislikes + 1,
+                    likes: answer.liked_by_user
+                      ? answer.likes - 1
+                      : answer.likes,
+                    disliked_by_user: true,
+                    liked_by_user: false,
+                  };
+                }
+              }
+            }
+            return answer;
+          })
+        );
+      } else {
+        console.error("Failed to update reaction:", response.statusText);
+      }
+    } catch (error) {
+      console.error("Error updating reaction:", error);
+    }
   };
 
   return (
     <div>
       {answerState.length > 0 ? (
         <div className="flex flex-col gap-6">
-          <h2 className="text-2xl font-bold text-gray-800">Answers</h2>
           {answerState.map((answer) => (
             <div key={answer.id} className="p-8 rounded-xl bg-white shadow-lg">
               <div className="flex justify-between items-center mb-4">
@@ -95,7 +119,7 @@ const AnswerList: React.FC<AnswerListProps> = ({ answers }) => {
               <p className="text-base text-gray-700">{answer.answer}</p>
               <div className="flex gap-4 mt-4">
                 <button
-                  onClick={() => handleLike(answer.id)}
+                  onClick={() => handleReaction(answer.id, "like")}
                   className={`text-sm ${
                     answer.liked_by_user ? "text-blue-500" : "text-gray-600"
                   }`}
@@ -103,7 +127,7 @@ const AnswerList: React.FC<AnswerListProps> = ({ answers }) => {
                   Likes: {answer.likes}
                 </button>
                 <button
-                  onClick={() => handleDislike(answer.id)}
+                  onClick={() => handleReaction(answer.id, "dislike")}
                   className={`text-sm ${
                     answer.disliked_by_user ? "text-red-500" : "text-gray-600"
                   }`}
