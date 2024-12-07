@@ -1,10 +1,16 @@
 import QuestionList from "../../../components/QuestionList";
 import RatingsSideBar from "../../../components/RatingsSideBar";
 
-export default function Home() {
+export default function Home({
+  searchParams,
+}: {
+  searchParams: { [key: string]: string | string[] | undefined };
+}) {
+  console.log(searchParams);
+
   return (
     <main className="grid grid-cols-[1fr] md:grid-cols-[2fr,1fr] gap-28 mx-auto mt-20 max-w-[136rem] px-12 md:px-16">
-      <QuestionList />
+      <QuestionList searchParams={searchParams} />
       <RatingsSideBar />
     </main>
   );

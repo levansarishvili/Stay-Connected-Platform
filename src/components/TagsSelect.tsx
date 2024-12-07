@@ -34,6 +34,7 @@ export default function AnimatedMulti({ onTagsChange }: TagsSelectProps) {
         }
 
         const data = await response.json();
+
         setTags(data);
         setIsLoggedIn(true);
       } catch (error) {
@@ -68,6 +69,7 @@ export default function AnimatedMulti({ onTagsChange }: TagsSelectProps) {
         control: (base, state) => ({
           ...base,
           borderRadius: "1rem",
+          maxWidth: "100%",
           fontSize: "1.4rem",
           border: "1px solid #85858591",
           boxShadow: state.isFocused ? "black" : base.boxShadow,
