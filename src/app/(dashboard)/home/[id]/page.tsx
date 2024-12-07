@@ -1,6 +1,4 @@
 import { cookies } from "next/headers";
-import ReturnBackButton from "../../../../components/ReturnBackBtn";
-import Image from "next/image";
 
 export interface Params {
   id: number;
@@ -8,9 +6,11 @@ export interface Params {
 }
 
 const QuestionDetails = async ({ params }: { params: Params }) => {
+  console.log(params);
   const cookieStore = cookies();
   const accessToken = cookieStore.get("accessToken")?.value;
   const { id } = params;
+  console.log(id, accessToken);
 
   const response = await fetch(
     `http://ios-stg.stayconnected.digital/api/questions/${id}`,
@@ -29,6 +29,7 @@ const QuestionDetails = async ({ params }: { params: Params }) => {
   }
 
   const question = await response.json();
+  console.log(question);
 
   if (!question || !question.id) {
     // Handle error if no data is returned.
@@ -37,36 +38,9 @@ const QuestionDetails = async ({ params }: { params: Params }) => {
 
   return (
     <section className="products-section product">
-      <h1>{question.author} Question</h1>
-      <div key={question.title} className="products">
-        <div className="product-list">
-          <div className="image-container">
-            <Image
-              src={question.tags[0]?.color || ""}
-              alt="tag"
-              className="product-img"
-            />
-          </div>
-          <div className="product-info">
-            <h2 className="text-blue-800 font-bold text-2xl">
-              {question.title}
-            </h2>
-            <p>{question.question}</p>
-            <div className="tags">
-              {question.tags.map((tag: { name: string; color: string }) => (
-                <span
-                  key={tag.name}
-                  className="px-4 py-1 rounded-lg"
-                  style={{ backgroundColor: tag.color }}
-                >
-                  {tag.name}
-                </span>
-              ))}
-            </div>
-          </div>
-        </div>
-        <ReturnBackButton />
-      </div>
+      <h1 className="text-4xl font-semibold text-gray-800">
+        Question Details page
+      </h1>
     </section>
   );
 };
