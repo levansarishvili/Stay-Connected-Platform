@@ -50,7 +50,6 @@ const QuestionDetails = async ({ params }: { params: Params }) => {
       <AnswerList
         answers={question.answers}
         accessToken={accessToken || ""}
-        url={url || ""}
       />
 
       <AddAnswer questionId={question.id} accessToken={accessToken || ""} />
