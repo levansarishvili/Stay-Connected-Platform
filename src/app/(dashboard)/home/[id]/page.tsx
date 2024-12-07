@@ -8,6 +8,17 @@ export interface Params {
   locale?: string;
 }
 
+interface Answer {
+  id: number;
+  author: number;
+  accepted: boolean;
+  answer: string;
+  likes: string;
+  dislikes: string;
+  liked_by_user: string;
+  disliked_by_user: "string";
+}
+
 const QuestionDetails = async ({ params }: { params: Params }) => {
   const cookieStore = cookies();
   const accessToken = cookieStore.get("accessToken")?.value;
@@ -71,9 +82,9 @@ const QuestionDetails = async ({ params }: { params: Params }) => {
         </div>
         {answers.length > 0 ? (
           <div className="flex flex-col gap-6">
-            {answers.map((answer: any, index: number) => (
+            {answers.map((answer: Answer, index: number) => (
               <div key={index} className="p-8 rounded-xl bg-white shadow-lg">
-                <p className="text-lg text-gray-800">{answer.text}</p>
+                <p className="text-lg text-gray-800">{answer.answer}</p>
               </div>
             ))}
           </div>
