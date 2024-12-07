@@ -9,6 +9,8 @@ export async function GET(
     // Retrieve the access token from cookies
     const accessToken = req.cookies.get("accessToken")?.value;
 
+    const url = process.env.DATA_API_URL;
+
     if (!accessToken) {
       return NextResponse.json(
         { error: "Unauthorized. Access token is missing." },
@@ -17,16 +19,13 @@ export async function GET(
     }
 
     // Fetch question details using the provided `id`
-    const response = await fetch(
-      `http://ios-stg.stayconnected.digital/api/questions/${params.id}`,
-      {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${accessToken}`,
-        },
-      }
-    );
+    const response = await fetch(`${url}/api/questions/${params.id}`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${accessToken}`,
+      },
+    });
 
     if (!response.ok) {
       return NextResponse.json(

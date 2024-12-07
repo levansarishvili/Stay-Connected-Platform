@@ -5,14 +5,13 @@ export async function POST(req: NextRequest) {
   try {
     const { email, password } = await req.json();
 
+    const url = process.env.DATA_API_URL;
+
     // Make a POST request to your backend API for authentication
-    const response = await axios.post(
-      "http://ios-stg.stayconnected.digital/api/token/",
-      {
-        email,
-        password,
-      }
-    );
+    const response = await axios.post(`${url}/api/token/`, {
+      email,
+      password,
+    });
     console.log(response.data);
 
     const {

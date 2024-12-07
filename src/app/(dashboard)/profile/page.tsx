@@ -16,16 +16,15 @@ async function Profile() {
   console.log("UserId:", userId);
   console.log("accessToken:", accessToken);
 
-  const response = await fetch(
-    `http://ios-stg.stayconnected.digital/api/users/${userId}`,
-    {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${accessToken}`,
-      },
-    }
-  );
+  const url = process.env.DATA_API_URL;
+
+  const response = await fetch(`${url}/api/users/${userId}`, {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${accessToken}`,
+    },
+  });
   const userData = await response.json();
   console.log(userData);
 
