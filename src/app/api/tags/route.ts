@@ -13,7 +13,7 @@ export async function GET() {
 
   try {
     const response = await axios.get(
-      "http://ios-stg.stayconnected.digital/api/tags/",
+      "https://ios-stg.stayconnected.digital/api/tags/",
       {
         headers: {
           Authorization: `Bearer ${accessToken}`,

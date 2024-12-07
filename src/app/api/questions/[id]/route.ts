@@ -1,47 +1,51 @@
-import { NextRequest, NextResponse } from "next/server";
+// app/api/questions/[id]/route.ts
+import { cookies } from "next/headers";
 
-// Update to GET request since you are fetching data based on the `id`
 export async function GET(
-  req: NextRequest,
+  request: Request,
   { params }: { params: { id: string } }
 ) {
-  try {
-    // Retrieve the access token from cookies
-    const accessToken = req.cookies.get("accessToken")?.value;
+  const cookieStore = cookies();
+  const accessToken = cookieStore.get("accessToken")?.value;
+  const { id } = params;
 
-    if (!accessToken) {
-      return NextResponse.json(
-        { error: "Unauthorized. Access token is missing." },
-        { status: 401 }
-      );
+  // Fetch the question details
+  const responseQuestion = await fetch(
+    `https://ios-stg.stayconnected.digital/api/questions/${id}`,
+    {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${accessToken}`,
+      },
     }
+  );
 
-    // Fetch question details using the provided `id`
-    const response = await fetch(
-      `http://ios-stg.stayconnected.digital/api/questions/${params.id}`,
-      {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${accessToken}`,
-        },
-      }
-    );
-
-    if (!response.ok) {
-      return NextResponse.json(
-        { error: "Failed to retrieve question details" },
-        { status: response.status }
-      );
+  // Fetch the answers for the question
+  const responseAnswer = await fetch(
+    `https://ios-stg.stayconnected.digital/api/questions/${id}/answers/`,
+    {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${accessToken}`,
+      },
     }
+  );
 
-    const data = await response.json();
-    return NextResponse.json(data, { status: 200 });
-  } catch (error) {
-    console.error(error);
-    return NextResponse.json(
-      { error: "Internal Server Error" },
-      { status: 500 }
-    );
+  // Handle errors
+  if (!responseQuestion.ok) {
+    return new Response("Question not found", { status: 404 });
   }
+
+  if (!responseAnswer.ok) {
+    return new Response("Answers not found", { status: 404 });
+  }
+
+  const question = await responseQuestion.json();
+  const answers = await responseAnswer.json();
+
+  return new Response(JSON.stringify({ question, answers }), {
+    headers: { "Content-Type": "application/json" },
+  });
 }

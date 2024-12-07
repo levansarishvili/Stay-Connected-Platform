@@ -20,7 +20,7 @@ export default async function QuestionList() {
   const accessToken = cookieStore.get("accessToken")?.value;
 
   const response = await fetch(
-    `http://ios-stg.stayconnected.digital/api/questions/`,
+    `https://ios-stg.stayconnected.digital/api/questions/`,
     {
       method: "GET",
       headers: {

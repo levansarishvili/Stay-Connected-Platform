@@ -15,7 +15,7 @@ export async function POST(req: NextRequest) {
     }
 
     const response = await fetch(
-      "http://ios-stg.stayconnected.digital/api/questions/",
+      "https://ios-stg.stayconnected.digital/api/questions/",
       {
         method: "POST",
         headers: {
