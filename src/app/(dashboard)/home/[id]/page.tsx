@@ -1,5 +1,6 @@
 import { cookies } from "next/headers";
 import ReturnBackButton from "../../../../components/ReturnBackBtn";
+import Image from "next/image";
 
 export interface Params {
   id: number;
@@ -40,8 +41,8 @@ const QuestionDetails = async ({ params }: { params: Params }) => {
       <div key={question.title} className="products">
         <div className="product-list">
           <div className="image-container">
-            <img
-              src={question.tags[0]?.color}
+            <Image
+              src={question.tags[0]?.color || ""}
               alt="tag"
               className="product-img"
             />
