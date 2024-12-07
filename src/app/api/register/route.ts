@@ -9,7 +9,7 @@ export async function POST(req: NextRequest) {
 
     // Send the data to your backend API for registration
     const response = await axios.post(
-      "https://ios-stg.stayconnected.digital/api/users/",
+      "http://ios-stg.stayconnected.digital/api/users/",
       {
         email,
         password,

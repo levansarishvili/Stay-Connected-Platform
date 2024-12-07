@@ -11,7 +11,7 @@ export async function GET(
 
   // Fetch the question details
   const responseQuestion = await fetch(
-    `https://ios-stg.stayconnected.digital/api/questions/${id}`,
+    `http://ios-stg.stayconnected.digital/api/questions/${id}`,
     {
       method: "GET",
       headers: {

@@ -7,7 +7,7 @@ export async function POST(req: NextRequest) {
 
     // Make a POST request to your backend API for authentication
     const response = await axios.post(
-      "https://ios-stg.stayconnected.digital/api/token/",
+      "http://ios-stg.stayconnected.digital/api/token/",
       {
         email,
         password,

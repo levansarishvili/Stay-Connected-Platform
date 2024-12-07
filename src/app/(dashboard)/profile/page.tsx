@@ -17,7 +17,7 @@ async function Profile() {
   console.log("accessToken:", accessToken);
 
   const response = await fetch(
-    `https://ios-stg.stayconnected.digital/api/users/${userId}`,
+    `http://ios-stg.stayconnected.digital/api/users/${userId}`,
     {
       method: "GET",
       headers: {
