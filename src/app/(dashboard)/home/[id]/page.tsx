@@ -3,7 +3,7 @@ import React from "react";
 import { cookies } from "next/headers";
 import AddAnswer from "../../../../components/AddAnswer";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import AnswerList from "../../../../components/AnswerList"; // Import client-side logic
+import AnswerList from "../../../../components/AnswerList";
 
 export interface Params {
   id: number;
@@ -16,7 +16,6 @@ const QuestionDetails = async ({ params }: { params: Params }) => {
   const { id } = params;
   const url = process.env.DATA_API_URL;
 
-  // Fetch question data
   const responseQuestion = await fetch(`${url}/api/questions/${id}`, {
     method: "GET",
     headers: {
@@ -49,10 +48,8 @@ const QuestionDetails = async ({ params }: { params: Params }) => {
         </div>
       </div>
 
-      {/* Answer List */}
       <AnswerList answers={question.answers} />
 
-      {/* Add Answer Form */}
       <AddAnswer questionId={question.id} accessToken={accessToken || ""} />
     </section>
   );

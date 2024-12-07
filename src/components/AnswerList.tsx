@@ -26,10 +26,8 @@ const AnswerList: React.FC<AnswerListProps> = ({ answers }) => {
       prev.map((answer) => {
         if (answer.id === id) {
           if (answer.liked_by_user) {
-            // Remove like
             return { ...answer, likes: answer.likes - 1, liked_by_user: false };
           } else {
-            // Add like and remove dislike if necessary
             return {
               ...answer,
               likes: answer.likes + 1,
@@ -51,14 +49,12 @@ const AnswerList: React.FC<AnswerListProps> = ({ answers }) => {
       prev.map((answer) => {
         if (answer.id === id) {
           if (answer.disliked_by_user) {
-            // Remove dislike
             return {
               ...answer,
               dislikes: answer.dislikes - 1,
               disliked_by_user: false,
             };
           } else {
-            // Add dislike and remove like if necessary
             return {
               ...answer,
               dislikes: answer.dislikes + 1,
@@ -77,6 +73,7 @@ const AnswerList: React.FC<AnswerListProps> = ({ answers }) => {
     <div>
       {answerState.length > 0 ? (
         <div className="flex flex-col gap-6">
+          <h2 className="text-2xl font-bold text-gray-800">Answers</h2>
           {answerState.map((answer) => (
             <div key={answer.id} className="p-8 rounded-xl bg-white shadow-lg">
               <div className="flex justify-between items-center mb-4">
