@@ -65,7 +65,7 @@ export function SingleQuestion({
   correct_answer: number | null;
 }) {
   return (
-    <Link href={`/${id}`}>
+    <Link href={`/home/${id}`}>
       <li className="flex flex-col items-start gap-8 p-6 rounded-lg bg-[#fff] cursor-pointer hover:shadow-md transition-shadow duration-300 ">
         <h2 className="text-2xl text-[#3C3C4399]">{title}</h2>
         <p className="text-xl">{question}</p>
