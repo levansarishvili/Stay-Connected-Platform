@@ -81,6 +81,8 @@ const Register = () => {
         title: "Registration Successful",
         description: "You have successfully registered.",
       });
+
+      router.push("/login");
     } catch (error: unknown) {
       if (error instanceof Error) {
         toast({ title: "Error", description: error.message });
