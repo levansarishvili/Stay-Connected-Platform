@@ -19,16 +19,15 @@ export default async function QuestionList() {
   const cookieStore = cookies();
   const accessToken = cookieStore.get("accessToken")?.value;
 
-  const response = await fetch(
-    `http://ios-stg.stayconnected.digital/api/questions/`,
-    {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${accessToken}`,
-      },
-    }
-  );
+  const url = process.env.DATA_API_URL;
+
+  const response = await fetch(`${url}/api/questions/`, {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${accessToken}`,
+    },
+  });
   const questionsData: QuestionType[] = await response.json();
   console.log(questionsData);
 
