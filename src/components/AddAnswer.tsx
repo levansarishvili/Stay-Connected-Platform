@@ -45,6 +45,7 @@ const AddAnswer: React.FC<AddAnswerProps> = ({ questionId, accessToken }) => {
           setError("Failed to add answer. Please try again.");
         }
       } catch (error) {
+        console.error("Error adding answer:", error);
         setError("An error occurred. Please try again.");
       } finally {
         setLoading(false);
@@ -57,14 +58,14 @@ const AddAnswer: React.FC<AddAnswerProps> = ({ questionId, accessToken }) => {
       <textarea
         value={newAnswer}
         onChange={handleAnswerChange}
-        className="w-full px-6 py-10 border rounded-lg"
+        className="w-full px-6 py-10 border rounded-lg text-xl"
         placeholder="Add your answer here..."
       />
       {error && <div className="text-red-500 mt-2">{error}</div>}{" "}
       {/* Display error message if any */}
       <button
         onClick={handleSubmit}
-        className="mt-4 px-6 py-2 bg-blue-500 text-white rounded-lg"
+        className="text-xl mt-4 px-6 py-2 bg-primary text-white rounded-lg hover:bg-[#777E99] transition-all animation duration-300"
         disabled={loading}
       >
         {loading ? "Adding..." : "Add Answer"}

@@ -30,7 +30,7 @@ const QuestionDetails = async ({ params }: { params: Params }) => {
   const question = await responseQuestion.json();
 
   return (
-    <section className="flex flex-col gap-12 px-10 py-8 bg-gray-100 min-h-screen">
+    <section className="flex flex-col gap-12 px-10 py-8 min-h-screen max-w-[136rem] mx-auto">
       <h2 className="text-2xl font-bold text-gray-800">Question</h2>
       <div className="flex flex-col gap-6 p-8 rounded-xl bg-white shadow-lg hover:shadow-xl transition-shadow duration-300">
         <div className="flex items-center gap-6">

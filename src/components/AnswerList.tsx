@@ -2,6 +2,7 @@
 
 import React, { useState } from "react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { ThumbsUp, ThumbsDown } from "lucide-react";
 
 interface Answer {
   id: number;
@@ -103,7 +104,7 @@ const AnswerList: React.FC<AnswerListProps> = ({
   return (
     <div>
       {answerState.length > 0 ? (
-        <div className="flex flex-col gap-6">
+        <div className="flex flex-col gap-8 ml-16">
           {answerState.map((answer) => (
             <div key={answer.id} className="p-8 rounded-xl bg-white shadow-lg">
               <div className="flex justify-between items-center mb-4">
@@ -122,23 +123,23 @@ const AnswerList: React.FC<AnswerListProps> = ({
                   </span>
                 )}
               </div>
-              <p className="text-base text-gray-700">{answer.answer}</p>
+              <p className="text-xl text-gray-700">{answer.answer}</p>
               <div className="flex gap-4 mt-4">
                 <button
                   onClick={() => handleReaction(answer.id, "like")}
-                  className={`text-sm ${
+                  className={`flex items-center gap-2 text-sm ${
                     answer.liked_by_user ? "text-blue-500" : "text-gray-600"
                   }`}
                 >
-                  Likes: {answer.likes}
+                  <ThumbsUp className="w-6 h-6" /> {answer.likes}
                 </button>
                 <button
                   onClick={() => handleReaction(answer.id, "dislike")}
-                  className={`text-sm ${
+                  className={`flex items-center gap-2 text-sm ${
                     answer.disliked_by_user ? "text-red-500" : "text-gray-600"
                   }`}
                 >
-                  Dislikes: {answer.dislikes}
+                  <ThumbsDown className="w-6 h-6" /> {answer.dislikes}
                 </button>
               </div>
             </div>
