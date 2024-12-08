@@ -2,7 +2,7 @@
 
 import { NextResponse } from "next/server";
 import axios from "axios";
-import { getAccessToken } from "@/lib/cookies"; // Make sure this function is correct and accessible
+import { getAccessToken } from "@/lib/cookies";
 
 export async function GET() {
   const accessToken = getAccessToken();
@@ -19,8 +19,6 @@ export async function GET() {
         Authorization: `Bearer ${accessToken}`,
       },
     });
-
-    console.log(response.data);
 
     const tags = response.data.map((tag: { name: string; color: string }) => ({
       value: tag.name,
