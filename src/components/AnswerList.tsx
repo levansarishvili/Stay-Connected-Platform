@@ -17,14 +17,26 @@ interface Answer {
 }
 
 interface AnswerListProps {
+  authorId: number;
+  userId: string | undefined;
   answers: Answer[];
   accessToken: string;
 }
 
-const AnswerList: React.FC<AnswerListProps> = ({ answers, accessToken }) => {
+const AnswerList: React.FC<AnswerListProps> = ({
+  authorId,
+  userId,
+  answers,
+  accessToken,
+}) => {
   const [answerState, setAnswerState] = useState(answers);
   const newUrl = process.env.NEXT_PUBLIC_DATA_API_URL;
 
+  //  Check if user is author of question
+  const isAuthor = Number(authorId) === Number(userId);
+  console.log(isAuthor);
+
+  // Function to handle reaction
   const handleReaction = async (id: number, action: "like" | "dislike") => {
     const endpoint = `${newUrl}/api/answers/${id}/${action}/`;
 
@@ -99,8 +111,13 @@ const AnswerList: React.FC<AnswerListProps> = ({ answers, accessToken }) => {
     }
   };
 
+  // Function to handle accepting an answer
   const handleAccept = async (id: number) => {
     const endpoint = `${newUrl}/api/answers/${id}/accept/`;
+
+    // Check if any answer is already accepted
+    const acceptedAnswer = answerState.find((answer) => answer.accepted);
+    console.log(acceptedAnswer);
 
     try {
       if (!accessToken) {
@@ -133,6 +150,7 @@ const AnswerList: React.FC<AnswerListProps> = ({ answers, accessToken }) => {
     }
   };
 
+  // Function to handle rejecting an answer
   const handleReject = async (id: number) => {
     const endpoint = `${newUrl}/api/answers/${id}/reject/`;
 
@@ -184,32 +202,37 @@ const AnswerList: React.FC<AnswerListProps> = ({ answers, accessToken }) => {
                       {answer.author}
                     </p>
                   </div>
-                  <div className="flex gap-4 items-center">
-                    {answer.accepted && (
-                      <CheckCircle className="w-8 h-8 text-green-500" />
-                    )}
-                    {answer.accepted && (
-                      <span className="text-green-500 font-bold text-md">
-                        Accepted
-                      </span>
-                    )}
-                    {!answer.accepted && (
-                      <>
-                        <button
-                          onClick={() => handleAccept(answer.id)}
-                          className="text-blue-500"
-                        >
-                          Accept
-                        </button>
-                        <button
-                          onClick={() => handleReject(answer.id)}
-                          className="text-red-500"
-                        >
-                          Reject
-                        </button>
-                      </>
-                    )}
-                  </div>
+                  {isAuthor && (
+                    <div className="flex gap-4 items-center">
+                      {answer.accepted && (
+                        <CheckCircle className="w-8 h-8 text-green-500" />
+                      )}
+                      {answer.accepted && (
+                        <>
+                          <span className="text-green-500 text-xl font-bold">
+                            Accepted
+                          </span>
+                          <button
+                            onClick={() => handleReject(answer.id)}
+                            className="text-red-500 text-xl"
+                          >
+                            Reject
+                          </button>
+                        </>
+                      )}
+                      {!answer.accepted && (
+                        <>
+                          <button
+                            onClick={() => handleAccept(answer.id)}
+                            className="text-blue-500 text-xl"
+                          >
+                            Accept
+                          </button>
+                          <span className="text-red-500 text-xl">Rejected</span>
+                        </>
+                      )}
+                    </div>
+                  )}
                 </div>
               </div>
               <p className="text-xl text-gray-700">{answer.answer}</p>

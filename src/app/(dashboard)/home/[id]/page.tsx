@@ -12,6 +12,7 @@ export interface Params {
 const QuestionDetails = async ({ params }: { params: Params }) => {
   const cookieStore = cookies();
   const accessToken = cookieStore.get("accessToken")?.value;
+  const userId = cookieStore.get("userId")?.value;
   const { id } = params;
   const url = process.env.NEXT_PUBLIC_DATA_API_URL;
 
@@ -29,7 +30,7 @@ const QuestionDetails = async ({ params }: { params: Params }) => {
 
   const question = await responseQuestion.json();
 
-  console.log(question);
+  console.log(question.author);
 
   return (
     <section className="flex flex-col gap-12 px-10 py-8 min-h-screen max-w-[136rem] mx-auto">
@@ -49,7 +50,12 @@ const QuestionDetails = async ({ params }: { params: Params }) => {
         </div>
       </div>
 
-      <AnswerList answers={question.answers} accessToken={accessToken || ""} />
+      <AnswerList
+        answers={question.answers}
+        accessToken={accessToken || ""}
+        authorId={question.author}
+        userId={userId}
+      />
 
       <AddAnswer questionId={question.id} accessToken={accessToken || ""} />
     </section>
