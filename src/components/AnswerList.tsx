@@ -30,11 +30,11 @@ const AnswerList: React.FC<AnswerListProps> = ({
   accessToken,
 }) => {
   const [answerState, setAnswerState] = useState(answers);
+  const [error, setError] = useState<string | null>(null);
   const newUrl = process.env.NEXT_PUBLIC_DATA_API_URL;
 
   //  Check if user is author of question
   const isAuthor = Number(authorId) === Number(userId);
-  console.log(isAuthor);
 
   // Function to handle reaction
   const handleReaction = async (id: number, action: "like" | "dislike") => {
@@ -54,9 +54,6 @@ const AnswerList: React.FC<AnswerListProps> = ({
         },
         body: JSON.stringify({}),
       });
-
-      const data = await response.json();
-      console.log(data);
 
       if (response.ok) {
         setAnswerState((prev) =>
@@ -116,8 +113,16 @@ const AnswerList: React.FC<AnswerListProps> = ({
     const endpoint = `${newUrl}/api/answers/${id}/accept/`;
 
     // Check if any answer is already accepted
-    const acceptedAnswer = answerState.find((answer) => answer.accepted);
-    console.log(acceptedAnswer);
+    const isAccepted = answerState.some((answer) => answer.accepted);
+
+    if (isAccepted) {
+      // console.error("Only one answer can be accepted at a time.");
+      setError(
+        () =>
+          "Only one answer can be accepted at a time, please reject the current accepted answer first."
+      );
+      return;
+    }
 
     try {
       if (!accessToken) {
@@ -153,6 +158,7 @@ const AnswerList: React.FC<AnswerListProps> = ({
   // Function to handle rejecting an answer
   const handleReject = async (id: number) => {
     const endpoint = `${newUrl}/api/answers/${id}/reject/`;
+    setError(() => null);
 
     try {
       if (!accessToken) {
@@ -189,6 +195,7 @@ const AnswerList: React.FC<AnswerListProps> = ({
     <div>
       {answerState.length > 0 ? (
         <div className="flex flex-col gap-8 ml-16">
+          <p className="text-red-500 text-2xl">{error}</p>
           {answerState.map((answer) => (
             <div key={answer.id} className="p-8 rounded-xl bg-white shadow-lg">
               <div className="flex justify-between items-center mb-4">
