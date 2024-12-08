@@ -3,6 +3,7 @@
 import React, { useState } from "react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { ThumbsUp, ThumbsDown } from "lucide-react";
+import { CheckCircle } from "lucide-react";
 
 interface Answer {
   id: number;
@@ -95,6 +96,74 @@ const AnswerList: React.FC<AnswerListProps> = ({ answers, accessToken }) => {
     }
   };
 
+  const handleAccept = async (id: number) => {
+    const endpoint = `${newUrl}/api/answers/${id}/accept/`;
+
+    try {
+      if (!accessToken) {
+        console.error("No access token found");
+        return;
+      }
+
+      const response = await fetch(endpoint, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${accessToken}`,
+        },
+      });
+
+      if (response.ok) {
+        setAnswerState((prev) =>
+          prev.map((answer) => {
+            if (answer.id === id) {
+              return { ...answer, accepted: true };
+            }
+            return answer;
+          })
+        );
+      } else {
+        console.error("Failed to accept answer:", response.statusText);
+      }
+    } catch (error) {
+      console.error("Error accepting answer:", error);
+    }
+  };
+
+  const handleReject = async (id: number) => {
+    const endpoint = `${newUrl}/api/answers/${id}/reject/`;
+
+    try {
+      if (!accessToken) {
+        console.error("No access token found");
+        return;
+      }
+
+      const response = await fetch(endpoint, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${accessToken}`,
+        },
+      });
+
+      if (response.ok) {
+        setAnswerState((prev) =>
+          prev.map((answer) => {
+            if (answer.id === id) {
+              return { ...answer, accepted: false };
+            }
+            return answer;
+          })
+        );
+      } else {
+        console.error("Failed to reject answer:", response.statusText);
+      }
+    } catch (error) {
+      console.error("Error rejecting answer:", error);
+    }
+  };
+
   return (
     <div>
       {answerState.length > 0 ? (
@@ -102,20 +171,43 @@ const AnswerList: React.FC<AnswerListProps> = ({ answers, accessToken }) => {
           {answerState.map((answer) => (
             <div key={answer.id} className="p-8 rounded-xl bg-white shadow-lg">
               <div className="flex justify-between items-center mb-4">
-                <div className="flex items-center gap-5">
-                  <Avatar className="cursor-pointer w-16 h-16 border-2 border-[#FFAA00] ">
-                    <AvatarImage src="https://github.com/shadcn.png" />
-                    <AvatarFallback>CN</AvatarFallback>
-                  </Avatar>
-                  <p className="text-lg font-semibold text-gray-800">
-                    {answer.author}
-                  </p>
+                <div className="flex w-[100%] justify-between">
+                  <div className="flex items-center gap-5">
+                    <Avatar className="cursor-pointer w-16 h-16 border-2 border-[#FFAA00] ">
+                      <AvatarImage src="https://github.com/shadcn.png" />
+                      <AvatarFallback>CN</AvatarFallback>
+                    </Avatar>
+                    <p className="text-lg font-semibold text-gray-800">
+                      {answer.author}
+                    </p>
+                  </div>
+                  <div className="flex gap-4 items-center">
+                    {answer.accepted && (
+                      <CheckCircle className="w-8 h-8 text-green-500" />
+                    )}
+                    {answer.accepted && (
+                      <span className="text-green-500 font-bold text-md">
+                        Accepted
+                      </span>
+                    )}
+                    {!answer.accepted && (
+                      <>
+                        <button
+                          onClick={() => handleAccept(answer.id)}
+                          className="text-blue-500"
+                        >
+                          Accept
+                        </button>
+                        <button
+                          onClick={() => handleReject(answer.id)}
+                          className="text-red-500"
+                        >
+                          Reject
+                        </button>
+                      </>
+                    )}
+                  </div>
                 </div>
-                {answer.accepted && (
-                  <span className="text-green-500 font-bold text-sm">
-                    Accepted
-                  </span>
-                )}
               </div>
               <p className="text-xl text-gray-700">{answer.answer}</p>
               <div className="flex gap-4 mt-4">
