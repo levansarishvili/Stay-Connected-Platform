@@ -13,7 +13,7 @@ const QuestionDetails = async ({ params }: { params: Params }) => {
   const cookieStore = cookies();
   const accessToken = cookieStore.get("accessToken")?.value;
   const { id } = params;
-  const url = process.env.DATA_API_URL;
+  const url = process.env.NEXT_PUBLIC_DATA_API_URL;
 
   const responseQuestion = await fetch(`${url}/api/questions/${id}`, {
     method: "GET",

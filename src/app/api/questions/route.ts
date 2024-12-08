@@ -7,7 +7,7 @@ export async function POST(req: NextRequest) {
     // Retrieve the access token from cookies
     const accessToken = req.cookies.get("accessToken")?.value;
 
-    const url = process.env.DATA_API_URL;
+    const url = process.env.NEXT_PUBLIC_DATA_API_URL;
 
     if (!accessToken) {
       return NextResponse.json(

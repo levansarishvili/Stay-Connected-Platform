@@ -7,7 +7,7 @@ import { getAccessToken } from "@/lib/cookies"; // Make sure this function is co
 export async function GET() {
   const accessToken = getAccessToken();
 
-  const url = process.env.DATA_API_URL;
+  const url = process.env.NEXT_PUBLIC_DATA_API_URL;
 
   if (!accessToken) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });

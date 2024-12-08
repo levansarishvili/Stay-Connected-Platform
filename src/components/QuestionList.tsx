@@ -24,7 +24,7 @@ export default async function QuestionList({
   const cookieStore = cookies();
   const accessToken = cookieStore.get("accessToken")?.value;
 
-  const url = process.env.DATA_API_URL;
+  const url = process.env.NEXT_PUBLIC_DATA_API_URL;
   const searchQueryTags = searchParams.tags || "";
   const searchQueryTitle = searchParams.title || "";
 

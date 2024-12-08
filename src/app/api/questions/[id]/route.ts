@@ -9,7 +9,7 @@ export async function GET(
   const accessToken = cookieStore.get("accessToken")?.value;
   const { id } = params;
 
-  const url = process.env.DATA_API_URL;
+  const url = process.env.NEXT_PUBLIC_DATA_API_URL;
 
   // Fetch the question details
   const responseQuestion = await fetch(`${url}/api/questions/${id}`, {

@@ -16,7 +16,7 @@ async function Profile() {
   console.log("UserId:", userId);
   console.log("accessToken:", accessToken);
 
-  const url = process.env.DATA_API_URL;
+  const url = process.env.NEXT_PUBLIC_DATA_API_URL;
 
   const response = await fetch(`${url}/api/users/${userId}`, {
     method: "GET",

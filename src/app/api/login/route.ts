@@ -5,7 +5,7 @@ export async function POST(req: NextRequest) {
   try {
     const { email, password } = await req.json();
 
-    const url = process.env.DATA_API_URL;
+    const url = process.env.NEXT_PUBLIC_DATA_API_URL;
 
     // Make a POST request to your backend API for authentication
     const response = await axios.post(`${url}/api/token/`, {
