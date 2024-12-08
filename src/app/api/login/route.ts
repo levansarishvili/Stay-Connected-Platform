@@ -12,7 +12,6 @@ export async function POST(req: NextRequest) {
       email,
       password,
     });
-    console.log(response.data);
 
     const {
       access: accessToken,
@@ -23,7 +22,6 @@ export async function POST(req: NextRequest) {
       refresh: string;
       user: { id: number };
     } = response.data;
-    console.log(accessToken, refreshToken, id);
 
     // Set cookies
     const res = NextResponse.json({ message: "Login successful" });

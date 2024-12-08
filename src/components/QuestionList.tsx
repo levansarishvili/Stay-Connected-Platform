@@ -76,7 +76,6 @@ export function SingleQuestion({
   title,
   question,
   tags,
-  correct_answer,
 }: {
   id: number;
   title: string;
@@ -86,7 +85,7 @@ export function SingleQuestion({
 }) {
   return (
     <Link href={`/home/${id}`}>
-      <li className="flex flex-col items-start gap-8 p-6 rounded-lg bg-[#fff] cursor-pointer hover:shadow-md transition-shadow duration-300 ">
+      <li className="flex flex-col items-start gap-8 p-12 rounded-lg bg-[#fff] cursor-pointer hover:shadow-md transition-shadow duration-300 ">
         <h2 className="text-2xl text-[#3C3C4399]">{title}</h2>
         <p className="text-xl">{question}</p>
         <div className="flex flex-col md:flex-row gap-6 justify-between items-center w-full">
@@ -94,11 +93,6 @@ export function SingleQuestion({
             {tags.map((tag) => (
               <Tag key={tag.name} name={tag.name} color={tag.color} />
             ))}
-          </div>
-          <div className="flex">
-            <span className="text-xl">
-              {`Answers: ${correct_answer === null ? 0 : correct_answer}`}
-            </span>
           </div>
         </div>
       </li>

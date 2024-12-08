@@ -15,7 +15,7 @@ export default function AuthLayout({
   return (
     <div className="h-screen text-center">
       <Header />
-      {children}
+      <div className="mt-44">{children}</div>
     </div>
   );
 }

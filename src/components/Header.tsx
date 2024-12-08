@@ -5,7 +5,7 @@ import { CirclePlus } from "lucide-react";
 
 export default function Header() {
   return (
-    <header className="bg-primary">
+    <header className="bg-primary fixed top-0 left-0 right-0 z-20">
       <div className="flex gap-10 items-center justify-between max-w-[136rem] px-8 py-6 mx-auto">
         <Link href={"/home"}>
           <Image

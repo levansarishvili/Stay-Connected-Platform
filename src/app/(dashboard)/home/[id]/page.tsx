@@ -55,7 +55,6 @@ const QuestionDetails = async ({ params }: { params: Params }) => {
   }
 
   const authorData: authorDataType = await responseAuthor.json();
-  console.log(authorData);
 
   return (
     <section className="flex flex-col gap-12 px-10 py-8 min-h-screen max-w-[96rem] mx-auto">
