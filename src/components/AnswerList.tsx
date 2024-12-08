@@ -196,69 +196,80 @@ const AnswerList: React.FC<AnswerListProps> = ({
         <div className="flex flex-col gap-8 ml-16">
           <p className="text-red-500 text-2xl">{error}</p>
           {answerState.map((answer) => (
-            <div key={answer.id} className="p-8 rounded-xl bg-white shadow-lg">
-              <div className="flex justify-between items-center mb-4">
-                <div className="flex w-[100%] justify-between">
-                  <div className="flex items-center gap-5">
-                    <Avatar className="cursor-pointer w-16 h-16 border-2 border-[#FFAA00] ">
-                      <AvatarImage src="https://github.com/shadcn.png" />
-                      <AvatarFallback>CN</AvatarFallback>
-                    </Avatar>
-                    <p className="text-lg font-semibold text-gray-800">
-                      {answer.author}
-                    </p>
-                  </div>
-                  {isAuthor && (
-                    <div className="flex gap-4 items-center">
-                      {answer.accepted && (
-                        <CheckCircle className="w-8 h-8 text-green-500" />
-                      )}
-                      {answer.accepted && (
-                        <>
-                          <span className="text-green-500 text-xl font-bold">
-                            Accepted
-                          </span>
-                          <button
-                            onClick={() => handleReject(answer.id)}
-                            className="text-red-500 text-xl"
-                          >
-                            Reject
-                          </button>
-                        </>
-                      )}
-                      {!answer.accepted && (
-                        <>
-                          <button
-                            onClick={() => handleAccept(answer.id)}
-                            className="text-blue-500 text-xl"
-                          >
-                            Accept
-                          </button>
-                          <span className="text-red-500 text-xl">Rejected</span>
-                        </>
-                      )}
-                    </div>
-                  )}
+            <div
+              key={answer.id}
+              className="p-8 rounded-xl bg-white shadow-lg  overflow-hidden"
+            >
+              <div className="flex flex-col md:flex-row justify-between items-center mb-6 gap-4 md:gap-12">
+                {/* Author */}
+                <div className="flex flex-col items-center gap-2 w-[15rem] md:w-auto">
+                  <Avatar className="cursor-pointer w-16 h-16 border-2 border-gray-200 rounded-full overflow-hidden">
+                    <AvatarImage src="https://github.com/shadcn.png" />
+                    <AvatarFallback>CN</AvatarFallback>
+                  </Avatar>
+                  <p className="text-lg font-semibold text-gray-800">
+                    {answer.author}
+                  </p>
+                </div>
+
+                <div className="flex w-full justify-center">
+                  <p className="text-xl text-center text-gray-700">
+                    {answer.answer}
+                  </p>
                 </div>
               </div>
-              <p className="text-xl text-gray-700">{answer.answer}</p>
-              <div className="flex gap-4 mt-4">
-                <button
-                  onClick={() => handleReaction(answer.id, "like")}
-                  className={`flex items-center gap-2 text-sm ${
-                    answer.liked_by_user ? "text-blue-500" : "text-gray-600"
-                  }`}
-                >
-                  <ThumbsUp className="w-6 h-6" /> {answer.likes}
-                </button>
-                <button
-                  onClick={() => handleReaction(answer.id, "dislike")}
-                  className={`flex items-center gap-2 text-sm ${
-                    answer.disliked_by_user ? "text-red-500" : "text-gray-600"
-                  }`}
-                >
-                  <ThumbsDown className="w-6 h-6" /> {answer.dislikes}
-                </button>
+
+              {/* Reactions and actions */}
+              <div className="flex justify-between gap-4 md:gap-10 mt-4">
+                <div className="flex gap-4">
+                  <button
+                    onClick={() => handleReaction(answer.id, "like")}
+                    className={`flex items-center gap-2 text-sm ${
+                      answer.liked_by_user ? "text-blue-500" : "text-gray-600"
+                    }`}
+                  >
+                    <ThumbsUp className="w-6 h-6" /> {answer.likes}
+                  </button>
+                  <button
+                    onClick={() => handleReaction(answer.id, "dislike")}
+                    className={`flex items-center gap-2 text-sm ${
+                      answer.disliked_by_user ? "text-red-500" : "text-gray-600"
+                    }`}
+                  >
+                    <ThumbsDown className="w-6 h-6" /> {answer.dislikes}
+                  </button>
+                </div>
+
+                {isAuthor && (
+                  <div className="flex gap-4 items-center">
+                    {answer.accepted && (
+                      <CheckCircle className="w-8 h-8 text-green-500" />
+                    )}
+                    {answer.accepted ? (
+                      <>
+                        <span className="text-green-500 text-xl font-bold">
+                          Accepted
+                        </span>
+                        <button
+                          onClick={() => handleReject(answer.id)}
+                          className="text-red-500 text-xl hover:underline"
+                        >
+                          Reject
+                        </button>
+                      </>
+                    ) : (
+                      <>
+                        <button
+                          onClick={() => handleAccept(answer.id)}
+                          className="text-blue-500 text-xl hover:underline"
+                        >
+                          Accept
+                        </button>
+                        <span className="text-red-500 text-xl">Rejected</span>
+                      </>
+                    )}
+                  </div>
+                )}
               </div>
             </div>
           ))}

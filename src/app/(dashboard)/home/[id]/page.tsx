@@ -9,6 +9,13 @@ export interface Params {
   locale?: string;
 }
 
+interface authorDataType {
+  id: number;
+  first_name: string;
+  last_name: string;
+  email: string;
+}
+
 const QuestionDetails = async ({ params }: { params: Params }) => {
   const cookieStore = cookies();
   const accessToken = cookieStore.get("accessToken")?.value;
@@ -29,21 +36,47 @@ const QuestionDetails = async ({ params }: { params: Params }) => {
   }
 
   const question = await responseQuestion.json();
+  const questionAuthorId = question.author;
+
+  // Fetch author details
+  const responseAuthor = await fetch(
+    `${url}/api/users/data/${questionAuthorId}`,
+    {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${accessToken}`,
+      },
+    }
+  );
+
+  if (!responseAuthor.ok) {
+    return <div>Author not found</div>;
+  }
+
+  const authorData: authorDataType = await responseAuthor.json();
+  console.log(authorData);
 
   return (
-    <section className="flex flex-col gap-12 px-10 py-8 min-h-screen max-w-[136rem] mx-auto">
-      <h2 className="text-2xl font-bold text-gray-800">Question</h2>
-      <div className="flex flex-col gap-6 p-8 rounded-xl bg-white shadow-lg hover:shadow-xl transition-shadow duration-300">
-        <div className="flex items-center gap-6">
-          <Avatar className="cursor-pointer w-16 h-16 border-2 border-[#FFAA00] ">
-            <AvatarImage src="https://github.com/shadcn.png" />
-            <AvatarFallback>CN</AvatarFallback>
-          </Avatar>
-          <div className="flex flex-col">
-            <h1 className="text-3xl font-bold text-gray-900">
+    <section className="flex flex-col gap-12 px-10 py-8 min-h-screen max-w-[96rem] mx-auto">
+      <h2 className="text-3xl font-bold text-gray-800">Question Details</h2>
+      <div className="flex flex-col gap-6 p-12 rounded-xl bg-white shadow-lg hover:shadow-xl transition-shadow duration-300">
+        <div className="flex flex-col md:flex-row items-center gap-12">
+          <div className="flex flex-col w-[15rem] gap-2 items-center">
+            <Avatar className="cursor-pointer w-16 h-16 border ">
+              <AvatarImage src="https://github.com/shadcn.png" />
+              <AvatarFallback>CN</AvatarFallback>
+            </Avatar>
+            <p className="text-xl font-medium text-gray-700 mt-2">
+              {`${authorData.first_name} ${authorData.last_name}`}{" "}
+            </p>
+          </div>
+
+          <div className="flex flex-col gap-6 w-full items-center">
+            <h2 className="text-2xl font-bold text-gray-900">
               {question.title}
-            </h1>
-            <p className="text-lg text-gray-700 mt-2">{question.question}</p>
+            </h2>
+            <p className="text-2xl text-gray-700 mt-2">{question.question}</p>
           </div>
         </div>
       </div>
