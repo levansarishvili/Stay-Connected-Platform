@@ -42,6 +42,9 @@ const AnswerList: React.FC<AnswerListProps> = ({ answers, accessToken }) => {
         body: JSON.stringify({}),
       });
 
+      const data = await response.json();
+      console.log(data);
+
       if (response.ok) {
         setAnswerState((prev) =>
           prev.map((answer) => {

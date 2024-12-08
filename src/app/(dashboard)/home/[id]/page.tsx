@@ -47,11 +47,7 @@ const QuestionDetails = async ({ params }: { params: Params }) => {
         </div>
       </div>
 
-      <AnswerList
-        answers={question.answers}
-        accessToken={accessToken || ""}
-        // url={url || ""}
-      />
+      <AnswerList answers={question.answers} accessToken={accessToken || ""} />
 
       <AddAnswer questionId={question.id} accessToken={accessToken || ""} />
     </section>
