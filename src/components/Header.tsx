@@ -9,7 +9,7 @@ export default function Header() {
       <div className="flex gap-10 items-center justify-between max-w-[136rem] px-8 py-6 mx-auto">
         <Link href={"/home"}>
           <Image
-            src="./assets/logo.svg"
+            src="/assets/logo.svg"
             alt="logo"
             width={50}
             height={50}
