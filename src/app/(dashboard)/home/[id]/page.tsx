@@ -29,6 +29,8 @@ const QuestionDetails = async ({ params }: { params: Params }) => {
 
   const question = await responseQuestion.json();
 
+  console.log(question);
+
   return (
     <section className="flex flex-col gap-12 px-10 py-8 min-h-screen max-w-[136rem] mx-auto">
       <h2 className="text-2xl font-bold text-gray-800">Question</h2>
