@@ -11,6 +11,8 @@ const AddAnswer: React.FC<AddAnswerProps> = ({ questionId, accessToken }) => {
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
 
+  const url = process.env.NEXT_PUBLIC_DATA_API_URL;
+
   const handleAnswerChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     setNewAnswer(e.target.value);
   };
@@ -24,7 +26,6 @@ const AddAnswer: React.FC<AddAnswerProps> = ({ questionId, accessToken }) => {
     if (newAnswer.trim()) {
       setLoading(true);
       setError(null);
-      const url = process.env.DATA_API_URL;
 
       try {
         const response = await fetch(

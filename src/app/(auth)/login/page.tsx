@@ -52,6 +52,7 @@ const LoginPage = () => {
       });
       router.push("/home");
     } catch (err) {
+      console.error("Login failed:", err);
       toast({ title: "Error", description: "Login failed" });
     }
   }

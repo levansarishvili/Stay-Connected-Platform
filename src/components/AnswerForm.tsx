@@ -16,6 +16,8 @@ const AnswerForm: React.FC<AnswerFormProps> = ({
   const [answer, setAnswer] = useState<string>("");
   const [answers, setAnswers] = useState<any[]>(initialAnswers);
 
+  const url = process.env.NEXT_PUBLIC_DATA_API_URL;
+
   const handleAnswerChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     setAnswer(e.target.value);
   };
@@ -23,17 +25,14 @@ const AnswerForm: React.FC<AnswerFormProps> = ({
   const handleSubmit = async () => {
     if (!answer.trim()) return;
 
-    const response = await fetch(
-      `https://ios-stg.stayconnected.digital/api/questions/${id}/answers/`,
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${accessToken}`,
-        },
-        body: JSON.stringify({ answer }),
-      }
-    );
+    const response = await fetch(`${url}/api/questions/${id}/answers/`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${accessToken}`,
+      },
+      body: JSON.stringify({ answer }),
+    });
 
     if (response.ok) {
       const newAnswer = await response.json();
