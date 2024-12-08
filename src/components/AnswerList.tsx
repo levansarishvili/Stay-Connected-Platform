@@ -116,7 +116,6 @@ const AnswerList: React.FC<AnswerListProps> = ({
     const isAccepted = answerState.some((answer) => answer.accepted);
 
     if (isAccepted) {
-      // console.error("Only one answer can be accepted at a time.");
       setError(
         () =>
           "Only one answer can be accepted at a time, please reject the current accepted answer first."

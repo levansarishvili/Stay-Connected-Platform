@@ -2,10 +2,15 @@
 
 import React, { useState } from "react";
 
+interface Answer {
+  id: number;
+  text: string;
+}
+
 interface AnswerFormProps {
   id: number;
   accessToken: string;
-  initialAnswers: any[];
+  initialAnswers: Answer[];
 }
 
 const AnswerForm: React.FC<AnswerFormProps> = ({
@@ -14,7 +19,7 @@ const AnswerForm: React.FC<AnswerFormProps> = ({
   initialAnswers,
 }) => {
   const [answer, setAnswer] = useState<string>("");
-  const [answers, setAnswers] = useState<any[]>(initialAnswers);
+  const [answers, setAnswers] = useState<Answer[]>(initialAnswers);
 
   const url = process.env.NEXT_PUBLIC_DATA_API_URL;
 
@@ -31,13 +36,13 @@ const AnswerForm: React.FC<AnswerFormProps> = ({
         "Content-Type": "application/json",
         Authorization: `Bearer ${accessToken}`,
       },
-      body: JSON.stringify({ answer }),
+      body: JSON.stringify({ text: answer }),
     });
 
     if (response.ok) {
-      const newAnswer = await response.json();
-      setAnswers([newAnswer, ...answers]); // Prepend the new answer to the existing list
-      setAnswer(""); // Reset the textarea
+      const newAnswer: Answer = await response.json();
+      setAnswers([newAnswer, ...answers]);
+      setAnswer("");
       alert("Answer added successfully!");
     } else {
       alert("Failed to add answer");
@@ -61,8 +66,8 @@ const AnswerForm: React.FC<AnswerFormProps> = ({
 
       {/* Render existing answers */}
       <div className="flex flex-col gap-6 mt-6">
-        {answers.map((answer: any, index: number) => (
-          <div key={index} className="p-8 rounded-xl bg-white shadow-lg">
+        {answers.map((answer) => (
+          <div key={answer.id} className="p-8 rounded-xl bg-white shadow-lg">
             <p className="text-lg text-gray-800">{answer.text}</p>
           </div>
         ))}

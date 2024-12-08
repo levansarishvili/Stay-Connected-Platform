@@ -44,8 +44,8 @@ const LoginPage = () => {
     try {
       // Simulate login API call
       const response = await axios.post("/api/login", data);
+      console.log(response.data);
 
-      console.log("Logging in:", data);
       toast({
         title: "Login Successful",
         description: "You are now logged in!",

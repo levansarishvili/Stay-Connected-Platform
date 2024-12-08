@@ -13,9 +13,6 @@ async function Profile() {
   const userId = cookieStore.get("userId")?.value;
   const accessToken = cookieStore.get("accessToken")?.value;
 
-  console.log("UserId:", userId);
-  console.log("accessToken:", accessToken);
-
   const url = process.env.NEXT_PUBLIC_DATA_API_URL;
 
   const response = await fetch(`${url}/api/users/${userId}`, {
@@ -26,7 +23,6 @@ async function Profile() {
     },
   });
   const userData = await response.json();
-  console.log(userData);
 
   return (
     <section className="flex flex-col items-center gap-12 mx-auto mt-20 max-w-4xl w-full p-8 bg-white rounded-lg shadow-lg">

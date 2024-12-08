@@ -54,8 +54,6 @@ function CreateQuestionPage() {
     }
 
     try {
-      console.log("Payload:", JSON.stringify(formData));
-
       const response = await fetch("/api/questions", {
         method: "POST",
         headers: {
@@ -70,15 +68,12 @@ function CreateQuestionPage() {
         throw new Error(errorResponse?.error || "Failed to create question");
       }
 
-      const result = await response.json();
       toast({
         title: "Congratulations",
         description: "Question created successfully",
       });
 
       router.push("/home");
-
-      console.log(result);
     } catch (error: unknown) {
       if (error instanceof Error) {
         console.error("Error:", error);

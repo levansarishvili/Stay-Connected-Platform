@@ -23,8 +23,6 @@ const AddAnswer: React.FC<AddAnswerProps> = ({ questionId, accessToken }) => {
       return;
     }
 
-    // console.log(url);
-
     if (newAnswer.trim()) {
       setLoading(true);
       setError(null);

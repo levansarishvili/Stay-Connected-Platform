@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
-import { getAccessToken } from "../../lib/cookies"; // Import your helper functions
+import { getAccessToken } from "../../lib/cookies";
 
 export function useAuthRedirect() {
   const [loading, setLoading] = useState(true);
