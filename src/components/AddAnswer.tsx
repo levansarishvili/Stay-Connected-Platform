@@ -23,13 +23,15 @@ const AddAnswer: React.FC<AddAnswerProps> = ({ questionId, accessToken }) => {
       return;
     }
 
+    // console.log(url);
+
     if (newAnswer.trim()) {
       setLoading(true);
       setError(null);
 
       try {
         const response = await fetch(
-          `${url}/api/questions/${questionId}/answers`,
+          `${url}/api/questions/${questionId}/answers/`,
           {
             method: "POST",
             headers: {
