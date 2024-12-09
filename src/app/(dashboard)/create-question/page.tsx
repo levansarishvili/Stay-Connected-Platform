@@ -85,6 +85,8 @@ function CreateQuestionPage() {
         description: "Failed to create question. Please try again.",
       });
     }
+
+    router.refresh();
   };
 
   return (
