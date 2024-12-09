@@ -2,7 +2,7 @@ import { redirect } from "next/navigation";
 import { cookies } from "next/headers";
 import Header from "../../components/Header";
 
-export default function AuthLayout({
+export default function DashboardLayout({
   children,
 }: {
   children: React.ReactNode;
