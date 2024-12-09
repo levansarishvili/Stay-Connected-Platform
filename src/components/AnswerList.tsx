@@ -270,6 +270,16 @@ const AnswerList: React.FC<AnswerListProps> = ({
                     )}
                   </div>
                 )}
+
+                {/* If answer is accepted and is the author, show only accepted status */}
+                {!isAuthor && answer.accepted && (
+                  <div className="flex gap-4 items-center">
+                    <CheckCircle className="w-8 h-8 text-green-500" />
+                    <span className="text-green-500 text-xl font-bold">
+                      Accepted
+                    </span>
+                  </div>
+                )}
               </div>
             </div>
           ))}
