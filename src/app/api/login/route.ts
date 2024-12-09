@@ -29,14 +29,14 @@ export async function POST(req: NextRequest) {
       httpOnly: true,
       secure: process.env.NODE_ENV === "production",
       path: "/",
-      maxAge: 60 * 50,
+      maxAge: 10,
     });
 
     res.cookies.set("refreshToken", refreshToken, {
       httpOnly: true,
       secure: process.env.NODE_ENV === "production",
       path: "/",
-      maxAge: 60 * 60 * 22,
+      maxAge: 60 * 2,
     });
 
     // Ensure 'id' is stored as a string
