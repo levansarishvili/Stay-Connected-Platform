@@ -50,6 +50,8 @@ const AnswerList: React.FC<AnswerListProps> = ({
 
   const url = process.env.NEXT_PUBLIC_DATA_API_URL;
 
+  const sortedAnswers = answerState.sort((a, b) => a.id - b.id);
+
   //  Check if user is author of question
   const isAuthor = Number(authorId) === Number(userId);
 
@@ -228,7 +230,7 @@ const AnswerList: React.FC<AnswerListProps> = ({
       {answerState.length > 0 ? (
         <div className="flex flex-col gap-8 ml-16">
           <p className="text-red-500 text-2xl">{error}</p>
-          {answerState.map((answer) => (
+          {sortedAnswers.map((answer) => (
             <div
               key={answer.id}
               className="p-8 rounded-xl bg-white shadow-lg  overflow-hidden"

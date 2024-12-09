@@ -39,8 +39,9 @@ export default async function QuestionList({
     }
   );
   const questionsData: QuestionType[] = await response.json();
+  const sortedQuestions = questionsData.sort((a, b) => a.id - b.id);
 
-  if (questionsData.length === 0) {
+  if (sortedQuestions.length === 0) {
     return (
       <div className="flex flex-col gap-64 items-center">
         <Search />
@@ -56,7 +57,7 @@ export default async function QuestionList({
       <Search />
 
       <ul className="flex flex-col gap-8 w-full">
-        {questionsData.map((question) => (
+        {sortedQuestions.map((question) => (
           <SingleQuestion
             key={question.id}
             id={question.id}
