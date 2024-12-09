@@ -45,8 +45,8 @@ export default async function QuestionList({
     return (
       <div className="flex flex-col gap-64 items-center">
         <Search />
-        <h2 className="text-4xl font-semibold text-gray-800">
-          No questions found 😞
+        <h2 className="text-[2.8rem] font-semibold text-gray-800">
+          No questions found 🔍
         </h2>
       </div>
     );

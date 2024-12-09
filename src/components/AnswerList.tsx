@@ -323,9 +323,9 @@ const AnswerList: React.FC<AnswerListProps> = ({
           ))}
         </div>
       ) : (
-        <div className="flex items-center justify-center p-8 rounded-lg bg-gray-50 border border-gray-200 text-center shadow-sm">
-          <p className="text-lg text-gray-600">
-            There are no answers yet. Be the first to contribute!
+        <div className="flex items-center justify-center p-12 rounded-lg text-center">
+          <p className="text-2xl text-gray-800 font-semibold">
+            No answers yet. Be the first to contribute! 💡
           </p>
         </div>
       )}
