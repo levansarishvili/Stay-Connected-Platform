@@ -39,7 +39,7 @@ export default async function QuestionList({
     }
   );
   const questionsData: QuestionType[] = await response.json();
-  const sortedQuestions = questionsData.sort((a, b) => a.id - b.id);
+  const sortedQuestions = questionsData.sort((a, b) => b.id - a.id);
 
   if (sortedQuestions.length === 0) {
     return (
