@@ -4,6 +4,7 @@ import React, { useState } from "react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { ThumbsUp, ThumbsDown } from "lucide-react";
 import { CheckCircle } from "lucide-react";
+import type { authorsDetailsType } from "../app/(dashboard)/home/[id]/page";
 
 interface Answer {
   id: number;
@@ -21,6 +22,7 @@ interface AnswerListProps {
   userId: string | undefined;
   answers: Answer[];
   accessToken: string;
+  authorsDetails: authorsDetailsType[];
 }
 
 const AnswerList: React.FC<AnswerListProps> = ({
@@ -28,6 +30,7 @@ const AnswerList: React.FC<AnswerListProps> = ({
   userId,
   answers,
   accessToken,
+  authorsDetails,
 }) => {
   const [answerState, setAnswerState] = useState(answers);
   const [error, setError] = useState<string | null>(null);
@@ -202,13 +205,17 @@ const AnswerList: React.FC<AnswerListProps> = ({
             >
               <div className="flex flex-col md:flex-row justify-between items-center mb-6 gap-4 md:gap-12">
                 {/* Author */}
-                <div className="flex flex-col items-center gap-2 w-[15rem] md:w-auto">
+                <div className="flex flex-col items-center gap-2 w-[15rem]">
                   <Avatar className="cursor-pointer w-16 h-16 border-2 border-gray-200 rounded-full overflow-hidden">
                     <AvatarImage src="https://github.com/shadcn.png" />
                     <AvatarFallback>CN</AvatarFallback>
                   </Avatar>
                   <p className="text-lg font-semibold text-gray-800">
-                    {answer.author}
+                    {authorsDetails.find((a) => a.id === answer.author)
+                      ?.first_name +
+                      " " +
+                      authorsDetails.find((a) => a.id === answer.author)
+                        ?.last_name}
                   </p>
                 </div>
 
@@ -252,7 +259,7 @@ const AnswerList: React.FC<AnswerListProps> = ({
                         </span>
                         <button
                           onClick={() => handleReject(answer.id)}
-                          className="text-red-500 text-xl hover:underline"
+                          className="text-red-500 text-xl py-2 px-4 rounded-lg hover:bg-red-100 duration-300"
                         >
                           Reject
                         </button>
@@ -261,11 +268,11 @@ const AnswerList: React.FC<AnswerListProps> = ({
                       <>
                         <button
                           onClick={() => handleAccept(answer.id)}
-                          className="text-blue-500 text-xl hover:underline"
+                          className="text-blue-500 text-xl py-2 px-4 rounded-lg hover:bg-blue-100 duration-300"
                         >
                           Accept
                         </button>
-                        <span className="text-red-500 text-xl">Rejected</span>
+                        {/* <span className="text-red-500 text-xl">Reject</span> */}
                       </>
                     )}
                   </div>

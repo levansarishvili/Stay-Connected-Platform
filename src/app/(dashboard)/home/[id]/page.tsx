@@ -3,6 +3,7 @@ import { cookies } from "next/headers";
 import AddAnswer from "../../../../components/AddAnswer";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import AnswerList from "../../../../components/AnswerList";
+import GetAnswersAuthor from "../../../../components/AnswersAuthor";
 
 export interface Params {
   id: number;
@@ -10,6 +11,24 @@ export interface Params {
 }
 
 interface authorDataType {
+  id: number;
+  first_name: string;
+  last_name: string;
+  email: string;
+}
+
+interface Answer {
+  id: number;
+  author: number;
+  accepted: boolean;
+  answer: string;
+  likes: number;
+  dislikes: number;
+  liked_by_user: boolean;
+  disliked_by_user: boolean;
+}
+
+export interface authorsDetailsType {
   id: number;
   first_name: string;
   last_name: string;
@@ -38,7 +57,17 @@ const QuestionDetails = async ({ params }: { params: Params }) => {
   const question = await responseQuestion.json();
   const questionAuthorId = question.author;
 
-  // Fetch author details
+  // Get answers authors unique id and fetch author details
+  const answersAuthorIds = question.answers.map(
+    (answer: Answer) => answer.author
+  );
+  const uniqueAuthorIds: number[] = Array.from(new Set(answersAuthorIds));
+
+  const authorsDetails: authorsDetailsType[] = await GetAnswersAuthor(
+    uniqueAuthorIds
+  );
+
+  // Fetch question author details
   const responseAuthor = await fetch(
     `${url}/api/users/data/${questionAuthorId}`,
     {
@@ -85,6 +114,7 @@ const QuestionDetails = async ({ params }: { params: Params }) => {
         accessToken={accessToken || ""}
         authorId={question.author}
         userId={userId}
+        authorsDetails={authorsDetails}
       />
 
       <AddAnswer questionId={question.id} accessToken={accessToken || ""} />
