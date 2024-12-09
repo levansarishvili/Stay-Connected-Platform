@@ -1,12 +1,13 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { ThumbsUp, ThumbsDown } from "lucide-react";
 import { CheckCircle } from "lucide-react";
-import type { authorsDetailsType } from "../app/(dashboard)/home/[id]/page";
+import AddAnswer from "./AddAnswer";
+import GetAnswersAuthor from "./AnswersAuthor";
 
-interface Answer {
+export interface Answer {
   id: number;
   author: number;
   accepted: boolean;
@@ -17,31 +18,60 @@ interface Answer {
   disliked_by_user: boolean;
 }
 
+interface authorsDetailsType {
+  id: number;
+  first_name: string;
+  last_name: string;
+  email: string;
+}
+
 interface AnswerListProps {
+  questionId: number;
   authorId: number;
   userId: string | undefined;
   answers: Answer[];
   accessToken: string;
-  authorsDetails: authorsDetailsType[];
+  answerAuthorData: authorsDetailsType[];
 }
 
 const AnswerList: React.FC<AnswerListProps> = ({
+  questionId,
   authorId,
   userId,
   answers,
   accessToken,
-  authorsDetails,
+  answerAuthorData,
 }) => {
   const [answerState, setAnswerState] = useState(answers);
   const [error, setError] = useState<string | null>(null);
-  const newUrl = process.env.NEXT_PUBLIC_DATA_API_URL;
+  const [authorIds, setAuthorIds] = useState<number[]>([]);
+  const [authorsDetails, setAuthorsDetails] =
+    useState<authorsDetailsType[]>(answerAuthorData);
+
+  const url = process.env.NEXT_PUBLIC_DATA_API_URL;
 
   //  Check if user is author of question
   const isAuthor = Number(authorId) === Number(userId);
 
+  useEffect(() => {
+    if (authorIds.length === 0) {
+      return;
+    }
+    const fetchAuthors = async () => {
+      if (!accessToken) {
+        console.error("No access token provided");
+        return;
+      }
+      const data = await GetAnswersAuthor(authorIds, accessToken);
+      setAuthorsDetails(() => data);
+    };
+
+    fetchAuthors();
+  }, [authorIds, accessToken]);
+
   // Function to handle reaction
   const handleReaction = async (id: number, action: "like" | "dislike") => {
-    const endpoint = `${newUrl}/api/answers/${id}/${action}/`;
+    const endpoint = `${url}/api/answers/${id}/${action}/`;
 
     try {
       if (!accessToken) {
@@ -113,7 +143,7 @@ const AnswerList: React.FC<AnswerListProps> = ({
 
   // Function to handle accepting an answer
   const handleAccept = async (id: number) => {
-    const endpoint = `${newUrl}/api/answers/${id}/accept/`;
+    const endpoint = `${url}/api/answers/${id}/accept/`;
 
     // Check if any answer is already accepted
     const isAccepted = answerState.some((answer) => answer.accepted);
@@ -159,7 +189,7 @@ const AnswerList: React.FC<AnswerListProps> = ({
 
   // Function to handle rejecting an answer
   const handleReject = async (id: number) => {
-    const endpoint = `${newUrl}/api/answers/${id}/reject/`;
+    const endpoint = `${url}/api/answers/${id}/reject/`;
     setError(() => null);
 
     try {
@@ -272,7 +302,6 @@ const AnswerList: React.FC<AnswerListProps> = ({
                         >
                           Accept
                         </button>
-                        {/* <span className="text-red-500 text-xl">Reject</span> */}
                       </>
                     )}
                   </div>
@@ -298,6 +327,14 @@ const AnswerList: React.FC<AnswerListProps> = ({
           </p>
         </div>
       )}
+
+      {/* Add answer form */}
+      <AddAnswer
+        setAuthorIds={setAuthorIds}
+        questionId={questionId}
+        accessToken={accessToken}
+        setAnswerState={setAnswerState}
+      />
     </div>
   );
 };

@@ -1,6 +1,5 @@
 import React from "react";
 import { cookies } from "next/headers";
-import AddAnswer from "../../../../components/AddAnswer";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import AnswerList from "../../../../components/AnswerList";
 import GetAnswersAuthor from "../../../../components/AnswersAuthor";
@@ -63,8 +62,9 @@ const QuestionDetails = async ({ params }: { params: Params }) => {
   );
   const uniqueAuthorIds: number[] = Array.from(new Set(answersAuthorIds));
 
-  const authorsDetails: authorsDetailsType[] = await GetAnswersAuthor(
-    uniqueAuthorIds
+  const answerAuthorData: authorsDetailsType[] = await GetAnswersAuthor(
+    uniqueAuthorIds,
+    accessToken
   );
 
   // Fetch question author details
@@ -110,14 +110,13 @@ const QuestionDetails = async ({ params }: { params: Params }) => {
       </div>
 
       <AnswerList
+        questionId={question.id}
         answers={question.answers}
         accessToken={accessToken || ""}
         authorId={question.author}
         userId={userId}
-        authorsDetails={authorsDetails}
+        answerAuthorData={answerAuthorData}
       />
-
-      <AddAnswer questionId={question.id} accessToken={accessToken || ""} />
     </section>
   );
 };

@@ -1,8 +1,8 @@
-import { cookies } from "next/headers";
-
-export default async function GetAnswersAuthor(idArray: number[]) {
+export default async function GetAnswersAuthor(
+  idArray: number[],
+  accessToken: string | undefined
+) {
   const url = process.env.NEXT_PUBLIC_DATA_API_URL;
-  const accessToken = cookies().get("accessToken")?.value;
 
   // Use Promise.all to wait for all fetch calls
   const data = await Promise.all(

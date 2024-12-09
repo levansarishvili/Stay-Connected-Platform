@@ -1,12 +1,21 @@
 "use client";
+
 import React, { useState } from "react";
+import type { Answer } from "./AnswerList";
 
 interface AddAnswerProps {
   questionId: number;
   accessToken: string;
+  setAnswerState: React.Dispatch<React.SetStateAction<Answer[]>>;
+  setAuthorIds: React.Dispatch<React.SetStateAction<number[]>>;
 }
 
-const AddAnswer: React.FC<AddAnswerProps> = ({ questionId, accessToken }) => {
+const AddAnswer: React.FC<AddAnswerProps> = ({
+  questionId,
+  accessToken,
+  setAnswerState,
+  setAuthorIds,
+}) => {
   const [newAnswer, setNewAnswer] = useState<string>("");
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
@@ -50,6 +59,30 @@ const AddAnswer: React.FC<AddAnswerProps> = ({ questionId, accessToken }) => {
         setError("An error occurred. Please try again.");
       } finally {
         setLoading(false);
+      }
+
+      // Fetch the updated answers after adding a new answer
+      try {
+        fetch(`${url}/api/questions/${questionId}`, {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${accessToken}`,
+          },
+        })
+          .then((response) => response.json())
+          .then((data) => {
+            setAnswerState(data.answers);
+            const authorIds = data.answers.map(
+              (answer: Answer) => answer.author
+            );
+            const uniqueAuthorIds = authorIds.filter(
+              (id: number, index: number) => authorIds.indexOf(id) === index
+            );
+            setAuthorIds(() => uniqueAuthorIds);
+          });
+      } catch (error) {
+        console.error("Error fetching answers:", error);
       }
     }
   };
